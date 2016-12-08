@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var userDb = [
+var userDb = require('../db/userDb')
+// const {getUsers, getUserByUsername, getUserById, createUser} = userDb
+
+
+var userDbMem = [
   { "username": "kfrn",
     "id": 1,
     "password": "admin",
@@ -18,27 +22,33 @@ var userDb = [
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.status(200)
-  var obj = { "users": []}
-  obj.users = userDb.map((user) => {
-    return {"username": user.username, "user_id": user.id}
-  })
-  res.json(obj)
+
+  userDb.getUsers()
+    .then((users) => {
+      var obj = { "users": []}
+      obj.users = users.map(({username, id}) => {
+        return {username, "user_id": id}
+      })
+      res.json(obj)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
 })
 
 router.post('/signup', (req, res, next) => {
   res.status(201)
-  userDb.push({
-    "username": req.body.username,
-    "password": req.body.password,
-    "shotsRemaining": 4,
-    "email": req.body.email
-  })
-  res.json({"data": true})
+
+  userDb.createUser(req.body.username, req.body.password, req.body, req.body.email)
+    .then((user) => {
+      res.json({"user_id": user[0]})
+    })
+    .catch( (err) => res.send(err) )
 })
 
 router.post('/login', (req, res) => {
   res.status(200)
-  var user = userDb.find((dude) => {
+  var user = userDbMem.find((dude) => {
     return dude.username == req.body.username &&
       dude.password == req.body.password
   })
