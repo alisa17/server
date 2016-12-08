@@ -40,6 +40,7 @@ test('Can create new user', t => {
     .send(user)
     .end( (err, res) => {
       t.false(err, 'There is no error')
+      t.true(Object.keys(res.body).length != 0, 'There is a response')
       t.equal(res.status, 201, 'HTTP 201 Created')
       t.equal(res.body.data, true, 'User sent = true')
       t.notEqual(res.status, 400, 'Not a 400 error')

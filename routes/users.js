@@ -33,17 +33,22 @@ router.post('/signup', (req, res, next) => {
     "shotsRemaining": 4,
     "email": req.body.email
   })
-  res.send({"data": true})
+  res.json({"data": true})
 })
 
 router.post('/login', (req, res) => {
   res.status(200)
-  res.json({
-    "user": {
-      "username": "Harrison",
-      "user_id": 4,
-      "shotsRemaining": 3
-    }
+  var user = userDb.find((dude) => {
+    return dude.username == req.body.username &&
+      dude.password == req.body.password
   })
+  if (user) {
+    res.json({"user": {
+      "username": user.username,
+      "user_id": user.id,
+      "shotsRemaining": user.shotsRemaining
+    }})
+  }
+
 })
 module.exports = router;
