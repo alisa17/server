@@ -69,7 +69,7 @@ The post object must take the form:
 
 The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. If the user creation is successful, a truthy value will be returned.
 
-    { "data": true }
+    { "user_id": 3 }
 
 ### Login as user
 

@@ -38,13 +38,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/signup', (req, res, next) => {
   res.status(201)
-  userDbMem.push({
-    "username": req.body.username,
-    "password": req.body.password,
-    "shotsRemaining": 4,
-    "email": req.body.email
-  })
-  res.json({"data": true})
+
+  userDb.createUser(req.body.username, req.body.password, req.body, req.body.email)
+    .then((user) => {
+      res.json({"user_id": user[0]})
+    })
+    .catch( (err) => res.send(err) )
 })
 
 router.post('/login', (req, res) => {
