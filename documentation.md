@@ -67,7 +67,7 @@ The post object must take the form:
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
   * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. If the user creation is successful, a truthy value will be returned.
+The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. If the user creation is successful, that user's ID will be returned.
 
     { "user_id": 3 }
 
