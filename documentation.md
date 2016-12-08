@@ -21,7 +21,7 @@ API for use with the "One-Shot" app project.
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-|GET|`/v1/users`|Get list of all users|users|
+| GET | `/v1/users` | Get list of all users | users |
 
 #### Response
 
