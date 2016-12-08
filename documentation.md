@@ -25,7 +25,7 @@ API for use with the "One-Shot" app project.
 
 #### Response
 
-###### Status Codes:
+##### Status Codes:
   * On success, the HTTP status code in the response header is 200 ('OK').
   * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
@@ -61,7 +61,7 @@ The post object must take the form:
     }
 
 #### Response
-###### Status Codes:
+##### Status Codes:
 
   * On success, the HTTP status code in the response header is 201 ('Created').
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
@@ -86,7 +86,7 @@ The post object must take the form:
 
 #### Response
 
-###### Status Codes:
+##### Status Codes:
   * On success, the HTTP status code in the response header is 200 ('OK').
   * If the login information is invalid (username doesn't exist / password is incorrect), a 401 'Unauthorized' HTTP status code will be returned.
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
@@ -117,7 +117,7 @@ The submission should take the format:
     }
 
 #### Response
-###### Status Codes:
+##### Status Codes:
 * On success, the HTTP status code in the response header is 200 ('OK').
 * If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
@@ -135,7 +135,7 @@ The post request will return an object with the id of the entry just submitted. 
 | GET    | `/v1/entries` | Retrieve all One Shot entries | entries |
 
 #### Response
-###### Status Codes:
+##### Status Codes:
 * On success, the HTTP status code in the response header is 200 ('OK').
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
@@ -164,7 +164,7 @@ The get request will return an object with the key "entries" containing an array
 | GET    | `/v1/entries/user` | Retrieve all entries posted by a specific user | user_entries |
 
 #### Response
-###### Status Codes:
+##### Status Codes:
 * On success, the HTTP status code in the response header is 200 ('OK').
 * If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
