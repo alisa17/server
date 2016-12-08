@@ -12,12 +12,12 @@ ensureAuthenticated = (req, res, next) => {
   } else {
     res.status(401)
     console.log("fail");
-    res.send({"data": "Invalid Permissions"})
+    res.send({"users": "Invalid Permissions"})
   }
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', ensureAuthenticated, function(req, res, next) {
   console.log("hit me");
   userDb.getUsers()
     .then((users) => {
