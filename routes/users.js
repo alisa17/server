@@ -27,7 +27,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/signup', (req, res, next) => {
   res.status(201)
-  res.json({ "data": true })
+  userDb.push({
+    "username": req.body.username,
+    "password": req.body.password,
+    "shotsRemaining": 4,
+    "email": req.body.email
+  })
+  res.send({"data": true})
 })
 
 router.post('/login', (req, res) => {
