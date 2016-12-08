@@ -5,13 +5,25 @@ var passport = require('../passport')
 var userDb = require('../db/userDb')
 // const {getUsers, getUserByUsername, getUserById, createUser} = userDb
 
+ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    console.log("yes");
+    return next()
+  } else {
+    res.status(401)
+    console.log("fail");
+    res.send({"data": "Invalid Permissions"})
+  }
+}
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.status(200)
+  console.log("hit me");
   userDb.getUsers()
     .then((users) => {
       var obj = { "users": []}
       obj.users = users.map(({username, id}) => {
+        res.status(200)
         return {username, "user_id": id}
       })
       res.json(obj)
@@ -46,7 +58,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
   console.log("login route");
   res.status(200)
-  res.redirect('/home')
+  res.send({"user": req.user})
 
 })
 

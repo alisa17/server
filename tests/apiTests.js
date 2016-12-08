@@ -61,13 +61,13 @@ test('Can login as valid user', t => {
     .send(user)
     .end( (err, res) => {
       t.false(err, 'There is no error')
-      // console.log(res.req);
-      // t.true(Object.keys(res.body).length != 0, 'There is a response')
-      t.equal(res.status, 302, 'HTTP 302 Redirect')
+      console.log(res.body);
+      t.true(Object.keys(res.body.user).length != 0, 'There is a response')
+      t.equal(res.status, 200, 'HTTP 200 OK')
       t.notEqual(res.status, 400, 'Not a 400 Bad Request error')
       t.notEqual(res.status, 401, 'Not a 401 Unauthorized error')
-      // t.true(res.body.hasOwnProperty("user"), 'Response has the key user')
-      // t.deepEqual(Object.keys(res.body), keys, "Response has the correct keys for the user object")
+      t.true(res.body.hasOwnProperty("user"), 'Response has the key user')
+      t.deepEqual(Object.keys(res.body.user), keys, "Response has the correct keys for the user object")
       t.end()
     })
 
