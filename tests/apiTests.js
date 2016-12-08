@@ -11,7 +11,7 @@ test('Can get users from /api/v1/users', t => {
             { "username": "kfrn",
               "user_id": 1 },
             { "username": "symeshjb",
-              "user_id": 4 } ]
+              "user_id": 2 } ]
       }
 
   request(app)
@@ -30,9 +30,9 @@ test('Can get users from /api/v1/users', t => {
 test('Can create new user', t => {
 
   var user = {
-    "username": "kfrn",
-    "password": "admin",
-    "email": "knfrances@gmail.com"
+    "username": "mel",
+    "password": "samson",
+    "email": "mel@mel.com"
     }
 
   request(app)
@@ -62,7 +62,6 @@ test('Can login as valid user', t => {
     .end( (err, res) => {
       t.false(err, 'There is no error')
       t.true(Object.keys(res.body).length != 0, 'There is a response')
-      console.log(res.body);
       t.equal(res.status, 200, 'HTTP 200 OK')
       t.notEqual(res.status, 400, 'Not a 400 Bad Request error')
       t.notEqual(res.status, 401, 'Not a 401 Unauthorized error')
