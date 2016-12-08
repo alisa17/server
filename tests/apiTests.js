@@ -28,9 +28,9 @@ test('Can get users from /api/v1/users', t => {
 })
 
 test('Can create new user', t => {
-
+  var randomNo = Math.floor(Math.random() * 1000)
   var user = {
-    "username": "mel",
+    "username": "mel" + randomNo,
     "password": "samson",
     "email": "mel@mel.com"
     }

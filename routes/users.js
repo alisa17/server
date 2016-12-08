@@ -1,28 +1,13 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+var bcrypt = require('bcrypt')
 
 var userDb = require('../db/userDb')
 // const {getUsers, getUserByUsername, getUserById, createUser} = userDb
 
-
-var userDbMem = [
-  { "username": "kfrn",
-    "id": 1,
-    "password": "admin",
-    "shotsRemaining": 3,
-    "email": "knfrances@gmail.com"
-   },
-  { "username": "symeshjb",
-    "id": 2,
-    "password": "memes",
-    "shotsRemaining": 3,
-    "email": "symeshjb@gmail.com"
-  }
-]
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.status(200)
-
   userDb.getUsers()
     .then((users) => {
       var obj = { "users": []}
@@ -38,27 +23,47 @@ router.get('/', function(req, res, next) {
 
 router.post('/signup', (req, res, next) => {
   res.status(201)
-
-  userDb.createUser(req.body.username, req.body.password, req.body, req.body.email)
+  userDb.getUserByUsername(req.body.username)
     .then((user) => {
-      res.json({"user_id": user[0]})
+      if (user.length === 0) {
+        bcrypt.genSalt(10, function(err, salt) {
+          bcrypt.hash(req.body.password, salt, function(err, hash) {
+            userDb.createUser(req.body.username, hash, req.body.email)
+            .then((user) => {
+              res.json({"user_id": user[0]})
+            })
+            .catch( (err) => res.send(err) )
+          })
+        })
+      } else {
+        res.status(400)
+        res.send({"user_id": 0})
+      }
     })
     .catch( (err) => res.send(err) )
 })
 
 router.post('/login', (req, res) => {
-  res.status(200)
-  var user = userDbMem.find((dude) => {
-    return dude.username == req.body.username &&
-      dude.password == req.body.password
-  })
-  if (user) {
-    res.json({"user": {
-      "username": user.username,
-      "user_id": user.id,
-      "shotsRemaining": user.shotsRemaining
-    }})
-  }
-
+  userDb.getUserByUsername(req.body.username)
+    .then((user) => {
+      if (user.length === 0) {
+        res.status(401)
+      } else {
+        bcrypt.compare(req.body.password, user[0].password, function(err, response) {
+          if (err) console.log(err);
+          else if (response) {
+            res.status(200)
+            res.json({"user": {
+              "username": user[0].username,
+              "user_id": user[0].id,
+              "shotsRemaining": user[0].shotsRemaining }
+            })
+          }
+        });
+      }
+    })
+    .catch( (err) => res.send(err) )
 })
+
+
 module.exports = router;
