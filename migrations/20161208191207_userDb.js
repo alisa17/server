@@ -1,0 +1,15 @@
+
+exports.up = function(knex, Promise) {
+  return knex.schema.createTableIfNotExists('users', (table) => {
+    table.increments("id")
+    table.string("username")
+    table.integer("shotsRemaining").defaultTo(4)
+    table.string("email")
+    table.string("password")
+    table.timestamp('created_at').defaultTo(knex.fn.now())
+  })
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('users')
+};

@@ -98,7 +98,8 @@ The post request will compare the username to the users table for a match, and w
       "user": {
         "username": "Mel",
         "user_id": 7,
-        "shotsRemaining": 2
+        "shotsRemaining": 2,
+        "created_at": "2016-12-08 06:18:15"
       }
       ["entries" [{}] ]
     }
