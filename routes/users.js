@@ -18,4 +18,14 @@ router.post('/signup', (req, res, next) => {
   res.json({ "data": true })
 })
 
+router.post('/login', (req, res) => {
+  res.status(200)
+  res.json({
+    "user": {
+      "username": "Harrison",
+      "user_id": 4,
+      "shotsRemaining": 3
+    }
+  })
+})
 module.exports = router;
