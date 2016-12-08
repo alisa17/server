@@ -3,6 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  res.status(200)
   res.json({
         "users": [
             { "username": "kfrn",
@@ -12,4 +13,19 @@ router.get('/', function(req, res, next) {
   })
 })
 
+router.post('/signup', (req, res, next) => {
+  res.status(201)
+  res.json({ "data": true })
+})
+
+router.post('/login', (req, res) => {
+  res.status(200)
+  res.json({
+    "user": {
+      "username": "Harrison",
+      "user_id": 4,
+      "shotsRemaining": 3
+    }
+  })
+})
 module.exports = router;

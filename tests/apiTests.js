@@ -18,10 +18,57 @@ test('Can get users from /api/v1/users', t => {
     .get('/api/v1/users')
     .end( (err, res) => {
       t.false(err, 'There is no error')
-      t.true(res, 'There is a response')
+      t.true(Object.keys(res.body).length != 0, 'There is a response')
+      t.equal(res.status, 200, 'HTTP 200 OK')
       t.true(res.body.hasOwnProperty('users'), 'There is a users key in the object returned from /users')
       t.true(res.body.users[0].hasOwnProperty('username'), 'The first obj in the "users" array has the key "username"')
       t.deepEqual(res.body, expected, 'Res.body should match expected structure')
       t.end()
     })
+})
+
+test('Can create new user', t => {
+
+  var user = {
+    "username": "kfrn",
+    "password": "admin",
+    "email": "knfrances@gmail.com"
+    }
+
+  request(app)
+    .post('/api/v1/users/signup')
+    .send(user)
+    .end( (err, res) => {
+      t.false(err, 'There is no error')
+      t.true(Object.keys(res.body).length != 0, 'There is a response')
+      t.equal(res.status, 201, 'HTTP 201 Created')
+      t.equal(res.body.data, true, 'User sent = true')
+      t.notEqual(res.status, 400, 'Not a 400 error')
+      t.end()
+    })
+
+})
+
+test('Can login as valid user', t => {
+  var keys = ["username", "user_id", "shotsRemaining"]
+  var user = {
+    "username": "kfrn",
+    "password": "admin"
+    }
+
+  request(app)
+    .post('/api/v1/users/login')
+    .send(user)
+    .end( (err, res) => {
+      t.false(err, 'There is no error')
+      t.true(Object.keys(res.body).length != 0, 'There is a response')
+      console.log(res.body);
+      t.equal(res.status, 200, 'HTTP 200 OK')
+      t.notEqual(res.status, 400, 'Not a 400 Bad Request error')
+      t.notEqual(res.status, 401, 'Not a 401 Unauthorized error')
+      t.true(res.body.hasOwnProperty("user"), 'Response has the key user')
+      t.deepEqual(Object.keys(res.body.user), keys, "Response has the correct keys for the user object")
+      t.end()
+    })
+
 })
