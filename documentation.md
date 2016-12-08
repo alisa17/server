@@ -52,6 +52,14 @@ The get request will return an object with the key "users", containing an array 
 | ------ | -------- | ----- | ------- |
 | POST    | `/v1/users/signup` | Create a user | boolean |
 
+The post object must take the form:
+
+    {
+      "username": "kfrn",
+      "password": "admin",
+      "email": "knfrances@gmail.com"
+    }
+
 #### Response
 ###### Status Codes:
 
@@ -61,13 +69,20 @@ The get request will return an object with the key "users", containing an array 
 
 The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. If the user creation is successful, a truthy value will be returned.
 
-    {"data": true}
+    { "data": true }
 
 ### Login as user
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
 | POST    | `/v1/users/login` | Authenticate a user | user |
+
+The post object must take the form:
+
+    {
+      "username": "kfrn",
+      "password": "admin"
+    }
 
 #### Response
 
@@ -87,3 +102,91 @@ The post request will compare the username to the users table for a match, and w
       }
       ["entries" [{}] ]
     }
+
+### Add new entry
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST    | `/v1/entries` | Post new One-Shot entry | entry_id |
+
+The submission should take the format:
+
+    {
+      "user_id": 4,
+      "image_url": "path/to/image.jpeg"
+    }
+
+#### Response
+###### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The post request will return an object with the id of the entry just submitted. The user who submits the image will have their shots remaining decremented by one.
+
+    {
+      "entry_id": 12
+    }
+
+### Get all entries (i.e., photos)
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET    | `/v1/entries` | Retrieve all One Shot entries | entries |
+
+#### Response
+###### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The get request will return an object with the key "entries" containing an array of entry objects.
+
+    {
+      "entries":
+        [
+          {
+            "entry_id": 1,
+            "created_at": [date/time],
+            "user_id": 2
+          },
+          {
+            "entry_id": 2,
+            "created_at": [date/time],
+            "user_id": 4
+          }
+        ]
+    }
+
+### Get all entries by a specific user
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET    | `/v1/entries/user` | Retrieve all entries posted by a specific user | user_entries |
+
+#### Response
+###### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The get request will return an object with the key "user_entries", containing an array of the entry objects.
+
+    {
+      "user_entries":
+        [
+          {
+            "entry_id": 1,
+            "created_at": [date/time],
+            "user_id": 5
+          },
+          {
+            "entry_id": 3,
+            "created_at": [date/time],
+            "user_id": 5
+          }
+        ]
+    }
+
+### Edit entry
+
+* Stretch goal - tba
