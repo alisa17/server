@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+var bcrypt = require('bcrypt')
 
 var userDb = require('../db/userDb')
 // const {getUsers, getUserByUsername, getUserById, createUser} = userDb
@@ -38,10 +39,24 @@ router.get('/', function(req, res, next) {
 
 router.post('/signup', (req, res, next) => {
   res.status(201)
-
-  userDb.createUser(req.body.username, req.body.password, req.body, req.body.email)
+  userDb.getUserByUsername(req.body.username)
     .then((user) => {
-      res.json({"user_id": user[0]})
+      if (user.length === 0) {
+        bcrypt.genSalt(10, function(err, salt) {
+          bcrypt.hash(req.body.password, salt, function(err, hash) {
+            // console.log("hash, uname", hash, req.body.username);
+            console.log(req.body);
+            userDb.createUser(req.body.username, hash, req.body.email)
+            .then((user) => {
+              res.json({"user_id": user[0]})
+            })
+            .catch( (err) => res.send(err) )
+          })
+        })
+      } else {
+        res.status(400)
+        res.send({"user_id": 0})
+      }
     })
     .catch( (err) => res.send(err) )
 })
