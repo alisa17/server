@@ -34,5 +34,14 @@ router.get('/:id', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+router.post('/', (req, res, next) => {
+  entriesDb.addNewEntry(req.body.user_id, req.body.image_url)
+    .then( (new_entry) => {
+      res.status(201)
+      res.send({"entry_id": new_entry})
+    })
+    .catch( (err) => res.send(err) )
+})
+
 
 module.exports = router

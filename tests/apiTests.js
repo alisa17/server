@@ -105,4 +105,19 @@ test('Can get all entries by user', t => {
     })
 })
 
+test('Can add new entry', t => {
+  var obj = {
+    "user_id": 1,
+    "image_url": 'https://s-media-cache-ak0.pinimg.com/236x/eb/56/63/eb5663581b6c4ef5a83f630fa8e0c21a.jpg'
+  }
+  request(app)
+    .post('/api/v1/entries')
+    .send(obj)
+    .end( (err, res) => {
+        // console.log("res.body", res.body);
+        t.false(err, 'There is no error')
+        t.end()
+  })
+})
+
 })
