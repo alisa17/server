@@ -7,7 +7,8 @@
 
 ## Background
 
-API for use with the "One-Shot" app project. AU denotes that this operation requires authentication.
+API for use with the "One-Shot" app project. Requests marked 'AU' require authentication.
+
 ##### The API can:
   * authenticate, create and retrieve users from a user table.
   * get all photo entries
@@ -110,32 +111,8 @@ The post request will compare the username to the users table for a match, and w
       ["entries" [{}] ]
     }
 
-### Add new entry
 
-| Method | Endpoint | Usage | Returns |
-| ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries` | Post new One-Shot entry | entry_id |
-
-The submission should take the format:
-
-    {
-      "user_id": 4,
-      "image_url": "path/to/image.jpeg"
-    }
-
-#### Response
-##### Status Codes:
-* On success, the HTTP status code in the response header is 201 ('Created').
-* If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
-* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
-
-The post request will return an object with the id of the entry just submitted. The user who submits the image will have their shots remaining decremented by one.
-
-    {
-      "entry_id": 12
-    }
-
-### Get all entries (i.e., photos)
+### Get all entries (i.e., photos) (AU)
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -164,7 +141,13 @@ The get request will return an object with the key "entries" containing an array
         ]
     }
 
-### Get all entries by a specific user
+If a non-authenticated user attempts this, the result will be:
+
+     {
+     "data": "Invalid Permissions"
+     }
+     
+### Get all entries by a specific user (AU)
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -192,6 +175,37 @@ The get request will return an object with the key "user_entries", containing an
             "user_id": 5
           }
         ]
+    }
+
+If a non-authenticated user attempts this, the result will be:
+
+     {
+     "data": "Invalid Permissions"
+     }
+
+### Add new entry
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST    | `/v1/entries` | Post new One-Shot entry | entry_id |
+
+The submission should take the format:
+
+    {
+      "user_id": 4,
+      "image_url": "path/to/image.jpeg"
+    }
+
+#### Response
+##### Status Codes:
+* On success, the HTTP status code in the response header is 201 ('Created').
+* If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The post request will return an object with the id of the entry just submitted. The user who submits the image will have their shots remaining decremented by one.
+
+    {
+      "entry_id": 12
     }
 
 ### Edit entry
