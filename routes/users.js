@@ -56,37 +56,9 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-  console.log("login route");
+  // console.log("login route");
   res.status(200)
   res.send({"user": req.user})
-
 })
-
-// router.post('/login', (req, res) => {
-//   userDb.getUserByUsername(req.body.username)
-//     .then((user) => {
-//       if (user.length === 0) {
-//         res.status(401)
-//       } else {
-//         bcrypt.compare(req.body.password, user[0].password, function(err, response) {
-//           if (err) console.log(err)
-//           else if (response) {
-//             res.status(200)
-//             res.json(refactorUser(user))
-//           }
-//         })
-//       }
-//     })
-//     .catch( (err) => res.send(err) )
-// })
-
-// refactorUser = (user) => {
-//   return {"user": {
-//     "username": user[0].username,
-//     "user_id": user[0].id,
-//     "shotsRemaining": user[0].shotsRemaining }
-//   }
-// }
-
 
 module.exports = router

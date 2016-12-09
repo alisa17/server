@@ -3,7 +3,9 @@ var config = require('../knexfile')[ process.env.NODE_ENV || 'development' ]
 var knex = Knex(config)
 
 function getAllEntries() {
-  return knex('entries').orderBy('created_at', 'desc')
+  return knex('entries')
+          .select('*', 'id as entry_id')
+          .orderBy('created_at', 'desc')
 }
 
 function getEntriesByUser(user_id) {
@@ -19,7 +21,7 @@ function increment(entry_id) {
           .where('id', entry_id)
           .then( (entry) => {
             var count = entry[0].likes
-            return knex('entries').where('id', user_id).update('likes', count++)
+            return knex('entries').where('id', entry_id).update('likes', count++)
           })
 }
 

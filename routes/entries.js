@@ -13,3 +13,14 @@ ensureAuthenticated = (req, res, next) => {
     res.send({"users": "Invalid Permissions"})
   }
 }
+
+router.get('/', (req, res, next) => {
+  entriesDb.getAllEntries()
+    .then( (entries) => {
+      // console.log("Got this route entries.js")
+      res.json({"entries": entries})
+    })
+    .catch( (err) => res.send(err) )
+})
+
+module.exports = router
