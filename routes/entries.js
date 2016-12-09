@@ -18,9 +18,21 @@ router.get('/', (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
       // console.log("Got this route entries.js")
+      res.status(200)
       res.json({"entries": entries})
     })
     .catch( (err) => res.send(err) )
 })
+
+router.get('/:id', (req, res, next) => {
+  entriesDb.getEntriesByUser(Number(req.params.id))
+    .then( (user_entries) => {
+      res.status(200)
+      // console.log("Got this route entries.js")
+      res.json({"user_entries": user_entries})
+    })
+    .catch( (err) => res.send(err) )
+})
+
 
 module.exports = router

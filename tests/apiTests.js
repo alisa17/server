@@ -91,4 +91,18 @@ test('Can get all entries from DB', t => {
       t.end()
     })
 
+test('Can get all entries by user', t => {
+  request(app)
+    .get('/api/v1/entries/2')
+    .expect(200)
+    .end( (err, res) => {
+        t.false(err, 'There is no error')
+        // console.log("res.body", res.body)
+        t.true(typeof res.body == 'object', 'Returns an object')
+        t.true(res.body.user_entries.length >= 2, '(At least) two entries in DB from user_id of 2')
+        t.true(res.body.user_entries[0].user_id === 2, 'The entries are from the correct user')
+        t.end()
+    })
+})
+
 })
