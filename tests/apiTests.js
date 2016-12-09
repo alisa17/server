@@ -116,6 +116,9 @@ test('Can add new entry', t => {
     .end( (err, res) => {
         // console.log("res.body", res.body);
         t.false(err, 'There is no error')
+        t.true(typeof res.body == 'object', 'Returns an object')
+        t.true(res.body.entry_id >= 4, 'Entry ID is > 4 (not one of our seeds)')
+        t.true(typeof res.body.entry_id, 'Entry ID is a number')
         t.end()
   })
 })
