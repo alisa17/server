@@ -28,10 +28,24 @@ getUserById = (id, callback) => {
     .then(res => callback(null, res))
 }
 
+decrement = (user_id) => {
+  return knex('users')
+          .where('id', user_id)
+          .then( (user) => {
+            var count = user[0].shotsRemaining
+            if (count === 0) {
+              return 0
+            } else {
+              return knex('users').where('id', user_id).update("shotsRemaining", count--)
+            }
+          })
+}
+
 module.exports = {
   getUsers,
   getUserByUsername,
   getUserByUsernameCb,
   createUser,
-  getUserById
+  getUserById,
+  decrement
 }
