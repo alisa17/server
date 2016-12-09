@@ -24,8 +24,8 @@ router.get('/', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-router.get('/:id', (req, res, next) => {
-  entriesDb.getEntriesByUser(Number(req.params.id))
+router.get('/:user_id', (req, res, next) => {
+  entriesDb.getEntriesByUser(Number(req.params.user_id))
     .then( (user_entries) => {
       res.status(200)
       // console.log("Got this route entries.js")
