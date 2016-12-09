@@ -5,17 +5,20 @@ var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 
 ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
+  console.log("authenticated", req);
+  var sessionId = Object.keys(req.sessionStore.sessions)
+  if (sessionId.length > 0) {
     console.log("yes");
     return next()
   } else {
     res.status(401)
-    console.log("fail");
+    // console.log("hitting 401");
     res.send({"users": "Invalid Permissions"})
   }
 }
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
+  // console.log("getentreies", req);
   entriesDb.getAllEntries()
     .then( (entries) => {
       // console.log("Got this route entries.js")

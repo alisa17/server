@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
-// app.use(express.session({ secret: 'keyboard cat' }));
+app.use(session({ secret: 'purple rain', resave: true, saveUninitialized: false }));
 
 app.use('/api/v1/users', users)
 app.use('/api/v1/entries', entries)

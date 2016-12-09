@@ -12,7 +12,8 @@ refactorUser = (user) => {
   }
 }
 
-passport.use(new Strategy((username, password, cb) => {
+passport.use(new Strategy({passReqToCallback : true}, (req, username, password, cb) => {
+  // console.log("passport. req is", req);
   db.getUserByUsernameCb(username, (err, user) => {
     if (err) return cb(err)
     if (!user) return cb(null, false)
