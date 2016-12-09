@@ -7,7 +7,7 @@
 
 ## Background
 
-API for use with the "One-Shot" app project.
+API for use with the "One-Shot" app project. AU denotes that this operation requires authentication.
 ##### The API can:
   * authenticate, create and retrieve users from a user table.
   * get all photo entries
@@ -17,7 +17,7 @@ API for use with the "One-Shot" app project.
 
 ## Requests
 
-### Return list of all users
+### Return list of all users (AU)
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -45,6 +45,12 @@ The get request will return an object with the key "users", containing an array 
         ]
     }
 
+If a non-authenticated user attempts this, the result will be:
+
+     {
+     "data": "Invalid Permissions"
+     }
+
 ### Create new user
 
 
@@ -67,7 +73,7 @@ The post object must take the form:
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
   * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. If the user creation is successful, that user's ID will be returned.
+The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. The password will be hashed, and the database stores only this hashed version. If the user creation is successful, that user's ID will be returned, e.g.:
 
     { "user_id": 3 }
 
@@ -92,7 +98,7 @@ The post object must take the form:
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
   * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The post request will compare the username to the users table for a match, and will bcrypt compare the password attempt to the hashed password in the user table. Returns user information (minus password) on success. [Creates user session]
+The post request will compare the username to the users table for a match, and will bcrypt compare the password attempt to the hashed password in the user table. Returns user information (minus password) on success. A user session is created upon success. 
 
     {
       "user": {
@@ -119,7 +125,7 @@ The submission should take the format:
 
 #### Response
 ##### Status Codes:
-* On success, the HTTP status code in the response header is 200 ('OK').
+* On success, the HTTP status code in the response header is 201 ('Created').
 * If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
@@ -162,7 +168,7 @@ The get request will return an object with the key "entries" containing an array
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/user` | Retrieve all entries posted by a specific user | user_entries |
+| GET    | `/v1/entries/:user_id` | Retrieve all entries posted by a specific user | user_entries |
 
 #### Response
 ##### Status Codes:
