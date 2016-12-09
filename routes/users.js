@@ -7,18 +7,15 @@ var userDb = require('../db/userDb')
 
 ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
-    console.log("yes");
     return next()
   } else {
     res.status(401)
-    console.log("fail");
     res.send({"users": "Invalid Permissions"})
   }
 }
 
 /* GET users listing. */
 router.get('/', ensureAuthenticated, function(req, res, next) {
-  console.log("hit me");
   userDb.getUsers()
     .then((users) => {
       var obj = { "users": []}
@@ -55,10 +52,13 @@ router.post('/signup', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+// router.get('/login', (req, res) => {
+//   res.json("hello there")
+// })
+
 router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-  // console.log("login route");
   res.status(200)
-  res.send({"user": req.user})
+  res.json({"user": req.user})
 })
 
 module.exports = router

@@ -36,7 +36,7 @@ decrement = (user_id) => {
             if (count === 0) {
               return 0
             } else {
-              return knex('users').where('id', user_id).update("shotsRemaining", count--)
+              return knex('users').where('id', user_id).update("shotsRemaining", count - 1)
             }
           })
 }

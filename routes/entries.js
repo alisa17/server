@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
+var userDb = require('../db/userDb')
 
 ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -37,9 +38,12 @@ router.get('/:user_id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   entriesDb.addNewEntry(req.body.user_id, req.body.image_url)
     .then( (new_entry) => {
-      res.status(201)
+      userDb.decrement(req.body.user_id)
+        .then( () => {
+          res.status(201)
+          res.send({"entry_id": new_entry[0]})
+        })
       // console.log("res.send is ...", {"entry_id": new_entry[0]});
-      res.send({"entry_id": new_entry[0]})
     })
     .catch( (err) => res.send(err) )
 })
