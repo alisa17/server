@@ -25,11 +25,6 @@ module.exports = {
     }
   },
 
-  production: {
-    client: 'postgresql',
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
+  production: process.env.DATABASE_URL
 
 };
