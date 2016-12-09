@@ -15,7 +15,7 @@ ensureAuthenticated = (req, res, next) => {
   }
 }
 
-router.get('/', (req, res, next) => {
+router.get('/', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
       // console.log("Got this route entries.js")
@@ -25,7 +25,7 @@ router.get('/', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-router.get('/:user_id', (req, res, next) => {
+router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getEntriesByUser(Number(req.params.user_id))
     .then( (user_entries) => {
       res.status(200)
@@ -35,7 +35,7 @@ router.get('/:user_id', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', ensureAuthenticated, (req, res, next) => {
   entriesDb.addNewEntry(req.body.user_id, req.body.image_url)
     .then( (new_entry) => {
       userDb.decrement(req.body.user_id)
