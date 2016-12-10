@@ -6,15 +6,26 @@ var userDb = require('../db/userDb')
 
 ensureAuthenticated = (req, res, next) => {
   // console.log("authenticated", req);
-  var sessionId = Object.keys(req.sessionStore.sessions)
-  if (sessionId.length > 0) {
-    console.log("yes");
+  if (req.isAuthenticated()) {
     return next()
-  } else {
-    res.status(401)
-    // console.log("hitting 401");
-    res.send({"users": "Invalid Permissions"})
   }
+  res.json({
+    "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+  })
+  // var sessionId = Object.keys(req.sessionStore.sessions)
+  // if (sessionId.length > 0) {
+  //   console.log("yes");
+  //   return next()
+  // } else {
+  //   res.status(401)
+  //   // console.log("hitting 401");
+  //   res.send({"users": "Invalid Permissions"})
+  // }
 }
 
 router.get('/', ensureAuthenticated, (req, res, next) => {

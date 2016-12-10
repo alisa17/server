@@ -22,10 +22,9 @@ createUser = (username, password, email) => {
   return knex('users').insert({username, password, email})
 }
 
-getUserById = (id, callback) => {
-  knex('users')
+getUserById = (id) => {
+   return knex('users')
     .where('id', id)
-    .then(res => callback(null, res))
 }
 
 decrement = (user_id) => {
