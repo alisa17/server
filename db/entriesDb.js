@@ -4,6 +4,7 @@ var knex = Knex(config)
 
 function getAllEntries() {
   return knex('entries')
+          .select('entries.entry_id', 'entries.user_id', 'entries.image_url', 'entries.likes', 'entries.entry_created_at', 'users.id', 'users.username')
           .join('users', 'entries.user_id', 'users.id')
           .orderBy('entry_created_at', 'desc')
 }
@@ -34,3 +35,4 @@ module.exports = {
 }
 
 // Raw SQL: SELECT * FROM entries INNER JOIN users on entries.user_id=users.id ORDER BY entry_created_at DESC
+// 'SELECT entries.entry_id, entries.user_id, entries.image_url, entries.likes, entries.entry_created_at, users.id, users.username FROM entries INNER JOIN users on entries.user_id=users.id ORDER BY entry_created_at DESC' <- excludes password
