@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     table.integer("shotsRemaining").defaultTo(4)
     table.string("email")
     table.string("password")
-    table.timestamp('created_at').defaultTo(knex.fn.now())
+    table.timestamp('user_created_at').defaultTo(knex.fn.now())
   })
 };
 

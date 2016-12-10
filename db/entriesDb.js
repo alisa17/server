@@ -4,8 +4,8 @@ var knex = Knex(config)
 
 function getAllEntries() {
   return knex('entries')
-          .select('*', 'id as entry_id')
-          .orderBy('created_at', 'desc')
+          .join('users', 'entries.user_id', 'users.id')
+          .orderBy('entry_created_at', 'desc')
 }
 
 function getEntriesByUser(user_id) {
@@ -18,10 +18,10 @@ function addNewEntry(user_id, image_url) {
 
 function increment(entry_id) {
   return knex('entries')
-          .where('id', entry_id)
+          .where('entry_id', entry_id)
           .then( (entry) => {
             var count = entry[0].likes
-            return knex('entries').where('id', entry_id).update('likes', count++)
+            return knex('entries').where('entry_id', entry_id).update('likes', count++)
           })
 }
 
@@ -32,3 +32,5 @@ module.exports = {
   addNewEntry,
   increment
 }
+
+// Raw SQL: SELECT * FROM entries INNER JOIN users on entries.user_id=users.id ORDER BY entry_created_at DESC
