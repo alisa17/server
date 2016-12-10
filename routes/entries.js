@@ -6,17 +6,20 @@ var userDb = require('../db/userDb')
 
 ensureAuthenticated = (req, res, next) => {
   // console.log("authenticated", req);
-  if (req.isAuthenticated()) {
+  console.log("req.user",req.user);
+  return next()
+  if (req.user) {
     return next()
+  } else {
+    res.json({
+      "error":
+        {
+          "type": "auth",
+          "code": 401,
+          "message": "authentication failed"
+        }
+    })
   }
-  res.json({
-    "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-  })
   // var sessionId = Object.keys(req.sessionStore.sessions)
   // if (sessionId.length > 0) {
   //   console.log("yes");

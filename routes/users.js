@@ -7,18 +7,20 @@ var userDb = require('../db/userDb')
 // const {getUsers, getUserByUsername, getUserById, createUser} = userDb
 
 ensureAuthenticated = (req, res, next) => {
-  console.log(req.user);
-  if (req.isAuthenticated()) {
+  console.log("req.user",req.user);
+  if (req.user) {
     return next()
+  } else {
+    res.json({
+      "error":
+        {
+          "type": "auth",
+          "code": 401,
+          "message": "authentication failed"
+        }
+    })
   }
-  res.json({
-    "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-  })
+
   // if (req.isAuthenticated()) {
   //   return next()
   // } else {
@@ -67,7 +69,7 @@ router.post('/signup', (req, res, next) => {
 
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log("lpgin route. req.session", req._session)
+  console.log("post to login", req.user)
   // console.log("lpgin route. res", res)
   res.json({"user": req.user})
   // res.redirect('/')

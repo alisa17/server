@@ -15,11 +15,9 @@ refactorUser = (user) => {
 passport.use(new Strategy((username, password, done) => {
   db.getUserByUsername(username)
     .then((user) => {
-      console.log(user);
       if(user.length === 0) done(null, false)
       else {
         bcrypt.compare(password, user[0].password, (err, valid) => {
-          console.log({valid});
           if (err) done(err)
           else if (valid) done(null, refactorUser(user[0]))
           else done(null, false)
