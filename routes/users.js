@@ -52,11 +52,8 @@ router.post('/signup', (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-// router.get('/login', (req, res) => {
-//   res.json("hello there")
-// })
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+router.post('/login', passport.authenticate('local'), (req, res) => {
   res.status(200)
   // console.log("lpgin route. req.session", req.session)
   // console.log("lpgin route. res", res)
