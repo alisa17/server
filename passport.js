@@ -21,7 +21,7 @@ passport.use(new Strategy((username, password, done) => {
         bcrypt.compare(password, user[0].password, (err, valid) => {
           console.log({valid});
           if (err) done(err)
-          if (valid) done(null, refactorUser(user[0]))
+          else if (valid) done(null, refactorUser(user[0]))
           else done(null, false)
         })
       }
@@ -43,11 +43,11 @@ passport.deserializeUser((id, done) => {
     .then((user)=> {
       // if(user.length == 0) done(null, false)
       done(null, refactorUser(user[0]))
+    })
     .catch((err) => {
       console.log({err});
       done(err)
     })
-  })
 })
 
 module.exports = passport
