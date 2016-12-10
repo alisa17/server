@@ -20,7 +20,7 @@ passport.use(new Strategy((username, password, done) => {
       else {
         bcrypt.compare(password, user[0].password, (err, valid) => {
           console.log({valid});
-          if (err) cb(err)
+          if (err) done(err)
           if (valid) done(null, refactorUser(user[0]))
           else done(null, false)
         })
@@ -28,37 +28,26 @@ passport.use(new Strategy((username, password, done) => {
     })
     .catch((err) => {
       console.log(err);
-      if (err) done(err)
+      done(err)
     })
 }))
 
-// passport.use(new Strategy({passReqToCallback : true}, (req, username, password, cb) => {
-//   // console.log("passport. req is", req);
-//   db.getUserByUsernameCb(username, (err, user) => {
-//     if (err) return cb(err)
-//     if (!user) return cb(null, false)
-//     bcrypt.compare(password, user[0].password, function(err, response) {
-//       if (err) return cb(null, false)
-//       var refUser = refactorUser(user[0])
-//       if (response) return cb(null, refUser)
-//       return cb(null, false)
-//     })
-//   })
-// }))
-
-passport.serializeUser((user, cb) => {
+passport.serializeUser((user, done) => {
   console.log("serializeUser");
-  cb(null, user.user_id)
+  done(null, user.user_id)
 })
 
-passport.deserializeUser((id, cb) => {
+passport.deserializeUser((id, done) => {
   console.log("deserializeUser");
-  db.getUserById(id, (err, user) => {
-    if (err) return cb(err)
-    cb(null, refactorUser(user[0]))
+  db.getUserById(id)
+    .then((user)=> {
+      // if(user.length == 0) done(null, false)
+      done(null, refactorUser(user[0]))
+    .catch((err) => {
+      console.log({err});
+      done(err)
+    })
   })
 })
-
-
 
 module.exports = passport

@@ -2,16 +2,29 @@ var express = require('express')
 var router = express.Router()
 var bcrypt = require('bcrypt')
 var passport = require('../passport')
+var Passport = require('passport')
 var userDb = require('../db/userDb')
 // const {getUsers, getUserByUsername, getUserById, createUser} = userDb
 
 ensureAuthenticated = (req, res, next) => {
+  console.log(req.user);
   if (req.isAuthenticated()) {
     return next()
-  } else {
-    res.status(401)
-    res.send({"users": "Invalid Permissions"})
   }
+  res.json({
+    "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+  })
+  // if (req.isAuthenticated()) {
+  //   return next()
+  // } else {
+  //   res.status(401)
+  //   res.send({"users": "Invalid Permissions"})
+  // }
 }
 
 /* GET users listing. */
@@ -54,8 +67,7 @@ router.post('/signup', (req, res, next) => {
 
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.status(200)
-  // console.log("lpgin route. req.session", req.session)
+  console.log("lpgin route. req.session", req._session)
   // console.log("lpgin route. res", res)
   res.json({"user": req.user})
   // res.redirect('/')
