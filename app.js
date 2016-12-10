@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(session({ secret: 'purple rain', resave: true, saveUninitialized: false }));
+app.use(session({ secret: 'purple rain', resave: true, saveUnitialized: false }));
 
 app.use('/api/v1/users', users)
 app.use('/api/v1/entries', entries)
