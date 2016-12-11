@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors')
+var cloudinary = require('cloudinary')
+
 var passport = require('./passport')
 
 var users = require('./routes/users')
