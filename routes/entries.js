@@ -44,7 +44,7 @@ router.get('/user/:target_id', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-router.post('/', ensureAuthenticated, (req, res, next) => {
+router.post('/new', ensureAuthenticated, (req, res, next) => {
   entriesDb.addNewEntry(req.body.user_id, req.body.image_url)
     .then( (new_entry) => {
       userDb.decrement(req.body.user_id)
