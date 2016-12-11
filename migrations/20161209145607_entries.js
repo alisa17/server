@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments('entry_id')
     table.integer('user_id')
     table.string('image_url')
-    table.integer('likes').defaultTo(0)
+    table.integer('flukes').defaultTo(0)
     table.timestamp('entry_created_at').defaultTo(knex.fn.now())
   })
 }
