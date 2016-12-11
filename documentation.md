@@ -212,7 +212,7 @@ The post request will return an object with the id of the entry just submitted. 
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | string |
+| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes | object with fluke data |
 
 This post request first checks if the entry has already been fluked by the current user: if so, the image is unfluked. If not, the image is fluked.
 The submission is an object containing the entry id & user id, e.g.:
