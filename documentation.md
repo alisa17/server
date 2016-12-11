@@ -215,10 +215,10 @@ The post request will return an object with the id of the entry just submitted. 
 | POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | string |
 
 This post request first checks if the entry has already been fluked by the current user: if so, the image is unfluked. If not, the image is fluked.
-The submission should take the format:
+The submission is an object containing the entry id & user id, e.g.:
 
     {
-      tba
+      entry_id: 1, user_id: 1
     }
 
 #### Response
@@ -230,10 +230,10 @@ The submission should take the format:
 The server will return an object structured as following
 
     {
-      "action": "fluke" [or "unfluke"], 
-      "entry_id": req.body.entry_id,
+      "action": "fluke"/"unfluke", 
+      "entry_id": 2,
       "success": true, 
-      "user_id": req.body.user_id
+      "user_id": 3
     }
 
 ### Edit entry
