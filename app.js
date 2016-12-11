@@ -23,7 +23,4 @@ app.use(passport.session())
 app.use('/api/v1/users', users)
 app.use('/api/v1/entries', entries)
 
-
-// app.post('/users/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => res.redirect('/home'))
-
 module.exports = app;

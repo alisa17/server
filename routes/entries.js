@@ -4,39 +4,9 @@ var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 
-ensureAuthenticated = (req, res, next) => {
-  // console.log("authenticated", req);
-  console.log("req.user",req.user);
-  return next()
-  if (req.user) {
-    return next()
-  } else {
-    res.json({
-      "error":
-        {
-          "type": "auth",
-          "code": 401,
-          "message": "authentication failed"
-        }
-    })
-  }
-  // var sessionId = Object.keys(req.sessionStore.sessions)
-  // if (sessionId.length > 0) {
-  //   console.log("yes");
-  //   return next()
-  // } else {
-  //   res.status(401)
-  //   // console.log("hitting 401");
-  //   res.send({"users": "Invalid Permissions"})
-  // }
-}
-
 router.get('/', ensureAuthenticated, (req, res, next) => {
-  // console.log("getentreies", req);
   entriesDb.getAllEntries()
     .then( (entries) => {
-      console.log("entries", entries);
-      // console.log("Got this route entries.js")
       res.status(200)
       res.json({"entries": entries})
     })
@@ -47,7 +17,6 @@ router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getEntriesByUser(Number(req.params.user_id))
     .then( (user_entries) => {
       res.status(200)
-      // console.log("Got this route entries.js")
       res.json({"user_entries": user_entries})
     })
     .catch( (err) => res.send(err) )
@@ -61,7 +30,6 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
           res.status(201)
           res.send({"entry_id": new_entry[0]})
         })
-      // console.log("res.send is ...", {"entry_id": new_entry[0]});
     })
     .catch( (err) => res.send(err) )
 })
@@ -88,5 +56,20 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+ensureAuthenticated = (req, res, next) => {
+  return next()
+  if (req.user) {
+    return next()
+  } else {
+    res.json({
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    })
+  }
+}
 
 module.exports = router
