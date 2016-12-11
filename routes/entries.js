@@ -73,15 +73,14 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
         entriesDb.increment(req.body.entry_id, req.body.user_id)
           .then( () => {
             res.status(201)
-            // res.status({success: true})
-            .send('Entry fluked!')
+            res.send({"success": true, "action": "fluke", "user_id": req.body.user_id, "entry_id": req.body.entry_id})
           })
           .catch( (err) => res.send(err) )
       } else {
         entriesDb.decrement(req.body.entry_id, req.body.user_id)
           .then( () => {
             res.status(200)
-            .send('Entry defluked!')
+            .send({"success": true, "action": "defluke", "user_id": req.body.user_id, "entry_id": req.body.entry_id})
           })
           .catch( (err) => res.send(err) )
       }
