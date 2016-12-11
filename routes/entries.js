@@ -4,6 +4,22 @@ var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 
+ensureAuthenticated = (req, res, next) => {
+  return next()
+  if (req.user) {
+    return next()
+  } else {
+    res.json({
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    })
+  }
+}
+
 router.get('/', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
@@ -55,21 +71,5 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
     })
     .catch( (err) => res.send(err) )
 })
-
-ensureAuthenticated = (req, res, next) => {
-  return next()
-  if (req.user) {
-    return next()
-  } else {
-    res.json({
-      "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-    })
-  }
-}
 
 module.exports = router

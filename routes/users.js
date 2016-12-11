@@ -5,6 +5,21 @@ var passport = require('../passport')
 var Passport = require('passport')
 var userDb = require('../db/userDb')
 
+ensureAuthenticated = (req, res, next) => {
+  if (req.user) {
+    return next()
+  } else {
+    res.json({
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    })
+  }
+}
+
 /* GET users listing. */
 router.get('/', ensureAuthenticated, function(req, res, next) {
   userDb.getUsers()
@@ -46,20 +61,5 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json({"user": req.user})
 })
-
-ensureAuthenticated = (req, res, next) => {
-  if (req.user) {
-    return next()
-  } else {
-    res.json({
-      "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-    })
-  }
-}
 
 module.exports = router
