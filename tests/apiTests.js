@@ -19,7 +19,6 @@ test('Can get users from /api/v1/users', t => {
     .post('/api/v1/users/login')
     .send({ username: 'kfrn', password: 'admin' })
     .end(function(err, res) {
-      // console.log(res.req);
       request(app)
         .get('/api/v1/users')
         .expect(200)
@@ -70,7 +69,6 @@ test('Can login as valid user', t => {
     .expect(200)
     .end( (err, res) => {
       t.false(err, 'There is no error')
-      // console.log(res.body);
       t.true(Object.keys(res.body.user).length != 0, 'There is a response')
       t.true(res.body.hasOwnProperty("user"), 'Response has the key user')
       t.deepEqual(Object.keys(res.body.user), keys, "Response has the correct keys for the user object")
@@ -83,7 +81,6 @@ test('Can get all entries from DB', t => {
     .get('/api/v1/entries')
     .expect(200)
     .end( (err, res) => {
-      // console.log("res.bodyy is", res.body);
       t.false(err, 'There is no error')
       t.true(typeof res.body == 'object', 'Returns an object')
       t.true(res.body.entries.length > 2, 'More than two entries in DB')
@@ -97,7 +94,6 @@ test('Can get all entries by user', t => {
     .expect(200)
     .end( (err, res) => {
         t.false(err, 'There is no error')
-        // console.log("res.body", res.body)
         t.true(typeof res.body == 'object', 'Returns an object')
         t.true(res.body.user_entries.length >= 2, '(At least) two entries in DB from user_id of 2')
         t.true(res.body.user_entries[0].user_id === 2, 'The entries are from the correct user')
@@ -114,13 +110,11 @@ test('Can add new entry', t => {
     .post('/api/v1/entries')
     .send(obj)
     .end( (err, res) => {
-        // console.log("res.body", res.body);
         t.false(err, 'There is no error')
         t.true(typeof res.body == 'object', 'Returns an object')
         t.true(res.body.entry_id >= 4, 'Entry ID is > 4 (not one of our seeds)')
         t.true(typeof res.body.entry_id, 'Entry ID is a number')
         t.end()
+      })
   })
-})
-
 })

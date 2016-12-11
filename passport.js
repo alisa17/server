@@ -25,25 +25,20 @@ passport.use(new Strategy((username, password, done) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       done(err)
     })
 }))
 
 passport.serializeUser((user, done) => {
-  console.log("serializeUser");
   done(null, user.user_id)
 })
 
 passport.deserializeUser((id, done) => {
-  console.log("deserializeUser");
   db.getUserById(id)
     .then((user)=> {
-      // if(user.length == 0) done(null, false)
       done(null, refactorUser(user[0]))
     })
     .catch((err) => {
-      console.log({err});
       done(err)
     })
 })

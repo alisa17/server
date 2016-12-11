@@ -18,17 +18,14 @@ function addNewEntry(user_id, image_url) {
 }
 
 function increment(entry_id, user_id) {
-  console.log("increment");
   return knex('entries')
           .where('entry_id', entry_id)
           .then( (entry) => {
             var count = entry[0].flukes
-            console.log("count of increment", count);
             return knex('entries')
                     .where('entry_id', entry_id)
                     .update('flukes', count + 1)
                     .then( () => {
-                      console.log("creating fluke")
                       return addFluke(entry_id, user_id)
                     })
           })
@@ -75,6 +72,3 @@ module.exports = {
   addFluke,
   deleteFluke
 }
-
-// Raw SQL: SELECT * FROM entries INNER JOIN users on entries.user_id=users.id ORDER BY entry_created_at DESC
-// 'SELECT entries.entry_id, entries.user_id, entries.image_url, entries.likes, entries.entry_created_at, users.id, users.username FROM entries INNER JOIN users on entries.user_id=users.id ORDER BY entry_created_at DESC' <- excludes password
