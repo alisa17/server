@@ -10,15 +10,15 @@
 API for use with the "One-Shot" app project. Requests marked 'AU' require authentication.
 
 ##### The API can:
-| Method | Task |
+| Task | Method |
 | ------ | -------- | 
-| GET | Return a list of all users |
-| POST | Create a new user |
-| POST | Log in as a user |
-| GET | Return a list of all photo entries |
-| POST | Add a new photo entry |
-| GET | Return all photo entries by a specific user |
-| POST | Fluke/unfluke (like or dislike) a specific post |
+| Return a list of all users | GET |
+| Create a new user | POST |
+| Log in as a user | POST |
+| Return a list of all photo entries | GET |
+| Add a new photo entry | POST |
+| Return all photo entries by a specific user | GET |
+| Fluke/unfluke (like or dislike) a specific post | POST |
   * post to delete an entry
 
 ## Requests
