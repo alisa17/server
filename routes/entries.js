@@ -67,10 +67,10 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
 })
 
 router.post('/fluke', ensureAuthenticated, (req, res, next) => {
-  entriesDb.checkAlreadyFluked(req.body.user_id, req.body.entry_id)
+  entriesDb.checkAlreadyFluked(req.body.entry_id, req.body.user_id)
     .then( (response) => {
       if (response.length === 0) {
-        entriesDb.increment(req.body.user_id, req.body.entry_id)
+        entriesDb.increment(req.body.entry_id, req.body.user_id)
           .then( () => {
             res.status(201)
             // res.status({success: true})
@@ -78,7 +78,7 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
           })
           .catch( (err) => res.send(err) )
       } else {
-        entriesDb.decrement(req.body.user_id, req.body.entry_id)
+        entriesDb.decrement(req.body.entry_id, req.body.user_id)
           .then( () => {
             res.status(200)
             .send('Entry defluked!')
