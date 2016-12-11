@@ -148,6 +148,31 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
      
+### Add new entry
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST    | `/v1/entries/new` | Post new One-Shot entry | entry_id |
+
+The submission should take the format:
+
+    {
+      "user_id": 4,
+      "image_url": "path/to/image.jpeg"
+    }
+
+#### Response
+##### Status Codes:
+* On success, the HTTP status code in the response header is 201 ('Created').
+* If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The post request will return an object with the id of the entry just submitted. The user who submits the image will have their shots remaining decremented by one.
+
+    {
+      "entry_id": 12
+    }
+  
 ### Get all entries by a specific user (AU)
 
 | Method | Endpoint | Usage | Returns |
@@ -183,32 +208,7 @@ If a non-authenticated user attempts this, the result will be:
      {
      "data": "Invalid Permissions"
      }
-
-### Add new entry
-
-| Method | Endpoint | Usage | Returns |
-| ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries` | Post new One-Shot entry | entry_id |
-
-The submission should take the format:
-
-    {
-      "user_id": 4,
-      "image_url": "path/to/image.jpeg"
-    }
-
-#### Response
-##### Status Codes:
-* On success, the HTTP status code in the response header is 201 ('Created').
-* If information format given is non-valid, an HTTP status code of 400 ('Bad Request') will be returned.
-* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
-
-The post request will return an object with the id of the entry just submitted. The user who submits the image will have their shots remaining decremented by one.
-
-    {
-      "entry_id": 12
-    }
-    
+  
 ### Fluke/unfluke (like/unlike) an entry
 
 | Method | Endpoint | Usage | Returns |
