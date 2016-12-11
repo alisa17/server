@@ -207,6 +207,34 @@ The post request will return an object with the id of the entry just submitted. 
     {
       "entry_id": 12
     }
+    
+### Fluke/unfluke (like/unlike) an entry
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | string |
+
+This post request first checks if the entry has already been fluked by the current user: if so, the image is unfluked. If not, the image is fluked.
+The submission should take the format:
+
+    {
+      tba
+    }
+
+#### Response
+##### Status Codes:
+* If the image is fluked, the HTTP status code in the response header is 201 ('Created').
+* If the image is unfluked, the HTTP status code in the response header is 200 ('OK').
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The server will return an object structured as following
+
+    {
+      "action": "fluke" [or "unfluke"], 
+      "entry_id": req.body.entry_id,
+      "success": true, 
+      "user_id": req.body.user_id
+    }
 
 ### Edit entry
 
