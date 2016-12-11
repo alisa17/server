@@ -66,5 +66,28 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+router.post('/fluke', ensureAuthenticated, (req, res, next) => {
+  entriesDb.checkAlreadyFluked(req.body.user_id, req.body.entry_id)
+    .then( (response) => {
+      if (response.length === 0) {
+        entriesDb.increment(req.body.user_id, req.body.entry_id)
+          .then( () => {
+            res.status(201)
+            // res.status({success: true})
+            .send('Entry fluked!')
+          })
+          .catch( (err) => res.send(err) )
+      } else {
+        entriesDb.decrement(req.body.user_id, req.body.entry_id)
+          .then( () => {
+            res.status(200)
+            .send('Entry defluked!')
+          })
+          .catch( (err) => res.send(err) )
+      }
+    })
+    .catch( (err) => res.send(err) )
+})
+
 
 module.exports = router
