@@ -116,14 +116,14 @@ The post request will compare the username to the users table for a match, and w
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries` | Retrieve all One Shot entries | entries |
+| GET    | `/v1/entries/:user_id` | Retrieve all One Shot entries | entries |
 
 #### Response
 ##### Status Codes:
 * On success, the HTTP status code in the response header is 200 ('OK').
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The get request will return an object with the key "entries" containing an array of entry objects.
+The get request will return an object with the key "entries" containing an array of entry objects, and the key "myFlukes" containing an array of entry IDs (ints).
 
     {
       "entries":
@@ -138,7 +138,8 @@ The get request will return an object with the key "entries" containing an array
             "created_at": [date/time],
             "user_id": 4
           }
-        ]
+        ],
+       "myFlukes": [1, 5, 9, 12]
     }
 
 If a non-authenticated user attempts this, the result will be:
@@ -151,7 +152,7 @@ If a non-authenticated user attempts this, the result will be:
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/:user_id` | Retrieve all entries posted by a specific user | user_entries |
+| GET    | `/v1/entries/user/:user_id` | Retrieve all entries posted by a specific user | user_entries |
 
 #### Response
 ##### Status Codes:
