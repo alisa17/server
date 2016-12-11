@@ -20,17 +20,23 @@ ensureAuthenticated = (req, res, next) => {
   }
 }
 
-router.get('/', ensureAuthenticated, (req, res, next) => {
+router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
-      res.status(200)
-      res.json({"entries": entries})
+      entriesDb.myFlukes(req.params.user_id)
+        .then( (flukes) => {
+          var myFlukes = flukes.map((fluke) => fluke.fluked_entry_id)
+          res.status(200)
+          res.json({entries, myFlukes})
+        })
+        .catch( (err) => res.send(err) )
+      // res.json({"entries": entries})
     })
     .catch( (err) => res.send(err) )
 })
 
-router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
-  entriesDb.getEntriesByUser(Number(req.params.user_id))
+router.get('/user/:target_id', ensureAuthenticated, (req, res, next) => {
+  entriesDb.getEntriesByUser(Number(req.params.target_id))
     .then( (user_entries) => {
       res.status(200)
       res.json({"user_entries": user_entries})

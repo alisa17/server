@@ -62,6 +62,11 @@ function deleteFluke(fluked_entry_id, fluker) {
           .del()
 }
 
+function myFlukes(user_id) {
+  return knex('flukes')
+          .where('fluker', user_id)
+}
+
 module.exports = {
   getAllEntries,
   getEntriesByUser,
@@ -70,5 +75,6 @@ module.exports = {
   decrement,
   checkAlreadyFluked,
   addFluke,
-  deleteFluke
+  deleteFluke,
+  myFlukes
 }
