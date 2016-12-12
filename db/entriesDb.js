@@ -45,21 +45,37 @@ function decrement(entry_id, user_id) {
           })
 }
 
-function checkAlreadyFluked(fluked_entry_id, fluker) {
+function checkAlreadyFluked(fluked_entry_id, user_id) {
   return knex('flukes')
           .where('fluked_entry_id', fluked_entry_id)
-          .andWhere('fluker', fluker)
+          .andWhere('user_id', user_id)
 }
 
-function addFluke(fluked_entry_id, fluker) {
-  return knex('flukes').insert({fluked_entry_id, fluker})
+function addFluke(fluked_entry_id, user_id) {
+  return knex('flukes').insert({fluked_entry_id, user_id})
 }
 
-function deleteFluke(fluked_entry_id, fluker) {
+function deleteFluke(fluked_entry_id, user_id) {
   return knex('flukes')
           .where('fluked_entry_id', fluked_entry_id)
-          .andWhere('fluker', fluker)
+          .andWhere('user_id', user_id)
           .del()
+}
+
+function myFlukes(user_id) {
+  return knex('flukes')
+          .where('user_id', user_id)
+}
+
+function incrementCommentCount(entry_id) {
+  return knex('entries')
+          .where('entry_id', entry_id)
+          .then( (entry) => {
+            var count = entry[0].commentCount
+            return knex('entries')
+                    .where('entry_id', entry_id)
+                    .update('commentCount', count + 1)
+          })
 }
 
 module.exports = {
@@ -70,5 +86,6 @@ module.exports = {
   decrement,
   checkAlreadyFluked,
   addFluke,
-  deleteFluke
+  deleteFluke,
+  myFlukes
 }

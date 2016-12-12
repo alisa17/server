@@ -20,17 +20,23 @@ ensureAuthenticated = (req, res, next) => {
   }
 }
 
-router.get('/', ensureAuthenticated, (req, res, next) => {
+router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
-      res.status(200)
-      res.json({"entries": entries})
+      entriesDb.myFlukes(req.params.user_id)
+        .then( (flukes) => {
+          var myFlukes = flukes.map((fluke) => fluke.fluked_entry_id)
+          res.status(200)
+          res.json({entries, myFlukes})
+        })
+        .catch( (err) => res.send(err) )
+      // res.json({"entries": entries})
     })
     .catch( (err) => res.send(err) )
 })
 
-router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
-  entriesDb.getEntriesByUser(Number(req.params.user_id))
+router.get('/user/:target_id', ensureAuthenticated, (req, res, next) => {
+  entriesDb.getEntriesByUser(Number(req.params.target_id))
     .then( (user_entries) => {
       res.status(200)
       res.json({"user_entries": user_entries})
@@ -38,7 +44,7 @@ router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
-router.post('/', ensureAuthenticated, (req, res, next) => {
+router.post('/new', ensureAuthenticated, (req, res, next) => {
   entriesDb.addNewEntry(req.body.user_id, req.body.image_url)
     .then( (new_entry) => {
       userDb.decrement(req.body.user_id)
@@ -70,6 +76,14 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
       }
     })
     .catch( (err) => res.send(err) )
+})
+
+router.post('/comments/new', ensureAuthenticated, (req, res) => {
+  //code goes here
+    //recieve req object
+    //knex add the comment to the comments table
+      //on success, then increment the entry by 1
+        //res.json the comment id
 })
 
 module.exports = router

@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.integer('user_id')
     table.string('image_url')
     table.integer('flukes').defaultTo(0)
+    table.integer('comment_count').defaultTo(0)
     table.timestamp('entry_created_at').defaultTo(knex.fn.now())
   })
 }
