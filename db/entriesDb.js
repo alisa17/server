@@ -67,6 +67,12 @@ function myFlukes(user_id) {
           .where('user_id', user_id)
 }
 
+function getComments(entry_id) {
+  return knex('comments')
+    .join('users', 'users.id', 'comments.user_id')
+    .where('entry_id', entry_id)
+}
+
 function incrementCommentCount(entry_id) {
   return knex('entries')
           .where('entry_id', entry_id)
@@ -87,5 +93,7 @@ module.exports = {
   checkAlreadyFluked,
   addFluke,
   deleteFluke,
-  myFlukes
+  myFlukes,
+  getComments,
+  incrementCommentCount
 }

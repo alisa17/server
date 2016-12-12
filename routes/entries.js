@@ -86,4 +86,14 @@ router.post('/comments/new', ensureAuthenticated, (req, res) => {
         //res.json the comment id
 })
 
+router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
+  entriesDb.getComments(req.params.entry_id)
+    .then((comments) => {
+      var parsedComments = comments.map(({username, comment, comment_created_at}) => {
+        return {username, comment, comment_created_at}
+      })
+      res.json({entry_comments: parsedComments})
+    })
+})
+
 module.exports = router
