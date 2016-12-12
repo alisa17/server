@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments('comment_id')
     table.integer('entry_id')
     table.integer('user_id')
+    table.string('comment')
     table.timestamp('comment_created_at').defaultTo(knex.fn.now())
   })
 };

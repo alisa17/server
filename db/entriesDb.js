@@ -77,11 +77,16 @@ function incrementCommentCount(entry_id) {
   return knex('entries')
           .where('entry_id', entry_id)
           .then( (entry) => {
-            var count = entry[0].commentCount
+            var count = entry[0].comment_count
             return knex('entries')
                     .where('entry_id', entry_id)
-                    .update('commentCount', count + 1)
+                    .update('comment_count', count + 1)
           })
+}
+
+function newComment({entry_id, user_id, comment}) {
+  return knex('comments')
+    .insert({entry_id, user_id, comment})
 }
 
 module.exports = {
@@ -95,5 +100,6 @@ module.exports = {
   deleteFluke,
   myFlukes,
   getComments,
-  incrementCommentCount
+  incrementCommentCount,
+  newComment
 }
