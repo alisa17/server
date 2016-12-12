@@ -10,7 +10,10 @@ function getAllEntries() {
 }
 
 function getEntriesByUser(user_id) {
-  return knex('entries').where('user_id', user_id).orderBy('entry_created_at', 'desc')
+  return knex('entries')
+          .join('users', 'entries.user_id', 'users.id')
+          .where('user_id', user_id)
+          .orderBy('entry_created_at', 'desc')
 }
 
 function addNewEntry(user_id, image_url) {
