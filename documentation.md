@@ -19,6 +19,8 @@ API for use with the "One-Shot" app project. Requests marked 'AU' require authen
 | Add a new photo entry | POST |
 | Return all photo entries by a specific user | GET |
 | Fluke/unfluke (like or dislike) a specific post | POST |
+| Add a new comment to an entry | POST |
+| Get all comments on a specified entry | GET |
 | Delete an entry - tba!!!!!!| POST |
 
 
