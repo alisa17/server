@@ -234,7 +234,7 @@ If a non-authenticated user attempts this, the result will be:
 | ------ | -------- | ----- | ------- |
 | POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | object with fluke data |
 
-This post request first checks if the entry has already been fluked (liked) by the current user: if so, the image is unfluked. If not, the image is fluked (unfluked).
+This post request first checks if the entry has already been fluked (liked) by the current user: if so, the image is unfluked (unliked). If not, the image is fluked (liked).
 The submission is an object containing the entry id & user id, e.g.:
 
     {
