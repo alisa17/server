@@ -30,7 +30,6 @@ router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
           res.json({entries, myFlukes})
         })
         .catch( (err) => res.send(err) )
-      // res.json({"entries": entries})
     })
     .catch( (err) => res.send(err) )
 })
