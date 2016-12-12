@@ -3,6 +3,7 @@ var router = express.Router()
 var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
+var followsDb = require('../db/followsDb')
 
 ensureAuthenticated = (req, res, next) => {
   return next()
@@ -103,5 +104,14 @@ router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
       res.json({entry_comments: parsedComments})
     })
 })
+
+router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
+  followsDb.getFollowingEntries(req.params.user_id)
+    .then((followed_entries) => {
+      console.log(followed_entries);
+    })
+})
+
+
 
 module.exports = router

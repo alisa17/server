@@ -9,6 +9,7 @@
 
 API for use with the Flooki (formerly "One-Shot") app project. 
 
+
 ##### The API can:
 | Task | Method | Requires authentication? |
 | ------ | -------- | -------- |
@@ -115,7 +116,7 @@ The post request will compare the username to the users table for a match, and w
         "username": "Mel",
         "user_id": 7,
         "shotsRemaining": 2,
-        "created_at": "2016-12-08 06:18:15"
+        "user_created_at": "2016-12-08 06:18:15"
       }
     }
 
@@ -139,15 +140,15 @@ The get request will return an object with the key "entries" containing an array
         [
           {
             "entry_id": 1,
-            "created_at": [date/time],
+            "entry_created_at": [date/time],
             "user_id": 2,
-            "commentCount": 0
+            "comment_count": 0
           },
           {
             "entry_id": 2,
-            "created_at": [date/time],
+            "entry_created_at": [date/time],
             "user_id": 4,
-            "commentCount": 4
+            "comment_count": 4
           }
         ],
        "myFlukes": [1, 5, 9, 12]
@@ -207,24 +208,31 @@ The get request will return an object with the key "user_entries", containing an
         [
           {
             "entry_id": 1,
-            "created_at": [date/time],
+            "entry_created_at": [date/time],
             "user_id": 5,
-            "commentCount": 0
+            "comment_count": 0,
           },
           {
             "entry_id": 3,
-            "created_at": [date/time],
+            "entry_created_at": [date/time],
             "user_id": 5,
-            "commentCount": 4
+            "comment_count": 4,
           }
         ]
     }
 
 If a non-authenticated user attempts this, the result will be:
 
-     {
-     "data": "Invalid Permissions"
-     }
+    {
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    }
+
+
 
 ([back to summary](#summary))  
 
@@ -321,4 +329,108 @@ The server will return an object structured as following
       ]
     }
 
+### User A starts following user B
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST   | `/v1/entries/follows/new` | flags user A as following user B | follow_id |
+
+This get will create a new row in the follows table associating the user who clicked "follow" to the user they followed. After following a user, they will see that user's entries displayed in the "following" tab of the app.
+The followed user's "follow_count" column of the users table will be incremented by 1
+The posted object should take the form:
+
+    {
+      following_user_id: 4, /*(user A)*/
+      followed_user_id: 2 /*(user B)*/
+    }
+
+
+#### Response
+##### Status Codes:
+* If the follow event is created, the HTTP status code is 200 ('Created').
+* If the users given do not both match users in the database, or if the information posted has the wrong format, the HTTP status code in the response header is 400 ('Bad Request').
+* If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The server will return an object structured as following
+
+    {
+      !!!figure this one out mr sleepy
+    }
+
+### User A stops following user B
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST   | `/v1/entries/follows/delete` | reverts following state from user A to user B | follow_id |
+
+This get will delete the row in the follows table associating the user who clicked "unfollow" to the user they were following.
+The unfollowed user's "follow_count" column of the users table will be decremented by 1
+The posted object should take the form:
+
+    {
+      following_user_id: 4, /*(user A)*/
+      followed_user_id: 2 /*(user B)*/
+    }
+
+
+#### Response
+##### Status Codes:
+* If the follow event is deleted, the HTTP status code is 200 ('Created').
+* If either:
+  * the users given do not both match users in the database
+  * the information posted has the wrong format
+  * there is no existing follow event from user A to user B
+
+  the HTTP status code in the response header is 400 ('Bad Request').
+* If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The server will return an object structured as following
+
+    {
+      !!!figure this one out mr sleepy
+    }
+
+### Get all entries a of a user's followed users
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET    | `/v1/entries/follows/:user_id` | Retrieve all entries a user is following | followed_entries |
+
+#### Response
+##### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The get request will return an object with the key "followed_entries", containing an array of the entry objects.
+
+   {
+     "user_entries":
+       [
+         {
+           "entry_id": 1,
+           "entry_created_at": [date/time],
+           "user_id": 5,
+           "comment_count": 0,
+           "username": "kfrn"
+         },
+         {
+           "entry_id": 3,
+           "entry_created_at": [date/time],
+           "user_id": 5,
+           "comment_count": 4,
+           "username": "symeshjb"
+         }
+       ]
+   }
+
+If a non-authenticated user attempts this, the result will be:
+
+    {
+    "data": "Invalid Permissions"
+    }
+
 ([back to summary](#summary))  
+
