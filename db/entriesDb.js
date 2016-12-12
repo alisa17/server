@@ -45,26 +45,26 @@ function decrement(entry_id, user_id) {
           })
 }
 
-function checkAlreadyFluked(fluked_entry_id, fluker) {
+function checkAlreadyFluked(fluked_entry_id, user_id) {
   return knex('flukes')
           .where('fluked_entry_id', fluked_entry_id)
-          .andWhere('fluker', fluker)
+          .andWhere('user_id', user_id)
 }
 
-function addFluke(fluked_entry_id, fluker) {
-  return knex('flukes').insert({fluked_entry_id, fluker})
+function addFluke(fluked_entry_id, user_id) {
+  return knex('flukes').insert({fluked_entry_id, user_id})
 }
 
-function deleteFluke(fluked_entry_id, fluker) {
+function deleteFluke(fluked_entry_id, user_id) {
   return knex('flukes')
           .where('fluked_entry_id', fluked_entry_id)
-          .andWhere('fluker', fluker)
+          .andWhere('user_id', user_id)
           .del()
 }
 
 function myFlukes(user_id) {
   return knex('flukes')
-          .where('fluker', user_id)
+          .where('user_id', user_id)
 }
 
 module.exports = {
