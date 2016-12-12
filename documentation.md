@@ -114,7 +114,6 @@ The post request will compare the username to the users table for a match, and w
         "shotsRemaining": 2,
         "created_at": "2016-12-08 06:18:15"
       }
-      ["entries" [{}] ]
     }
 
 
@@ -137,12 +136,14 @@ The get request will return an object with the key "entries" containing an array
           {
             "entry_id": 1,
             "created_at": [date/time],
-            "user_id": 2
+            "user_id": 2,
+            "commentCount": 0
           },
           {
             "entry_id": 2,
             "created_at": [date/time],
-            "user_id": 4
+            "user_id": 4,
+            "commentCount": 4
           }
         ],
        "myFlukes": [1, 5, 9, 12]
@@ -199,12 +200,14 @@ The get request will return an object with the key "user_entries", containing an
           {
             "entry_id": 1,
             "created_at": [date/time],
-            "user_id": 5
+            "user_id": 5,
+            "commentCount": 0
           },
           {
             "entry_id": 3,
             "created_at": [date/time],
-            "user_id": 5
+            "user_id": 5,
+            "commentCount": 4
           }
         ]
     }
@@ -272,7 +275,33 @@ The server will return an object structured as following
       "comment_id: 4
     }
 
+### Get all comments on a specified entry
 
-### Edit entry
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET   | `/v1/entries/comments/:entry_id` | get all comments on an entry| entry_comments |
 
-* Stretch goal - tba
+This get will return an array of the comment objects associated to the specified entry. The comments will be arranged in a descending order, meaning the first index will be the latest comment.
+The :entry_id parameter in the request url is the id of the entry you wish to retrieve the comments of
+
+#### Response
+##### Status Codes:
+* If the entry exists and the comments are retrieved, the HTTP status code is 200 ('Created').
+* If the entry_id given does not match any entries in the database, the HTTP status code in the response header is 400 ('Bad Request').
+* If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The server will return an object structured as following
+
+    {
+      [
+        {
+          "comment": "Mel-lo I am Hel",
+          "comment_created_at": 2016-12-12 04:48:20
+        },
+        {
+          "comment": "I do like this meme, it is a nice meme",
+          "comment_created_at": 1969-20-04 04:20:00
+        }
+      ]
+    }
