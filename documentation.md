@@ -7,26 +7,26 @@
 
 ## Background
 
-API for use with the "One-Shot" app project. Requests marked 'AU' require authentication.
+API for use with the "One-Shot" app project. 
 
 ##### The API can:
-| Task | Method |
-| ------ | -------- |
-| Return a list of all users | GET |
-| Create a new user | POST |
-| Log in as a user | POST |
-| Return a list of all photo entries | GET |
-| Add a new photo entry | POST |
-| Return all photo entries by a specific user | GET |
-| Fluke/unfluke (like or dislike) a specific post | POST |
-| Add a new comment to an entry | POST |
-| Get all comments on a specified entry | GET |
-| Delete an entry - tba!!!!!!| POST |
+| Task | Method | Requires authentication? |
+| ------ | -------- | -------- |
+| Return a list of all users | GET | yes |
+| Create a new user | POST | tba |
+| Log in as a user | POST | tba |
+| Return a list of all photo entries | GET | yes |
+| Add a new photo entry | POST | tba |
+| Return all photo entries by a specific user | GET | yes |
+| Fluke/unfluke (like or dislike) a specific post | POST | tba |
+| Add a new comment to an entry | POST | tba |
+| Get all comments on a specified entry | GET | tba |
+| Delete an entry - tba!!!!!!| POST | tba |
 
 
 ## Requests
 
-### Return list of all users (AU)
+### Return list of all users
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -119,7 +119,7 @@ The post request will compare the username to the users table for a match, and w
     }
 
 
-### Get all entries (i.e., photos) (AU)
+### Get all entries (i.e., photos)
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -182,7 +182,7 @@ The post request will return an object with the id of the entry just submitted. 
       "entry_id": 12
     }
 
-### Get all entries by a specific user (AU)
+### Get all entries by a specific user
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
