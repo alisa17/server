@@ -294,14 +294,16 @@ The :entry_id parameter in the request url is the id of the entry you wish to re
 The server will return an object structured as following
 
     {
-      [
+      "entry_comments": [
         {
           "comment": "Mel-lo I am Hel",
-          "comment_created_at": 2016-12-12 04:48:20
+          "comment_created_at": 2016-12-12 04:48:20,
+          "username": "mel"
         },
         {
           "comment": "I do like this meme, it is a nice meme",
-          "comment_created_at": 1969-20-04 04:20:00
+          "comment_created_at": 1969-20-04 04:20:00,
+          "username": symeshjb
         }
       ]
     }

@@ -81,8 +81,27 @@ router.post('/comments/new', ensureAuthenticated, (req, res) => {
   //code goes here
     //recieve req object
     //knex add the comment to the comments table
+    entriesDb.newComment(req.body)
+      .then((comment_id) => {
+        if (comment_id[0]) {
+          entriesDb.incrementCommentCount(req.body.entry_id)
+            .then((result) => {
+              res.send({comment_id: comment_id[0]})
+            })
+        }
+      })
       //on success, then increment the entry by 1
         //res.json the comment id
+})
+
+router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
+  entriesDb.getComments(req.params.entry_id)
+    .then((comments) => {
+      var parsedComments = comments.map(({username, comment, comment_created_at}) => {
+        return {username, comment, comment_created_at}
+      })
+      res.json({entry_comments: parsedComments})
+    })
 })
 
 module.exports = router
