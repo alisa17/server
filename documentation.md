@@ -12,7 +12,7 @@ API for use with the "One-Shot" app project.
 ##### The API can:
 | Task | Method | Requires authentication? |
 | ------ | -------- | -------- |
-| Return a list of all users | GET | yes |
+| [Return a list of all users](#return-list-of-all-users) | GET | yes |
 | Create a new user | POST | tba |
 | Log in as a user | POST | tba |
 | Return a list of all photo entries | GET | yes |
