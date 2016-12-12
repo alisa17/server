@@ -13,14 +13,14 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | Task | Method | Requires authentication? |
 | ------ | -------- | -------- |
 | [Return a list of all users](#return-list-of-all-users) | GET | yes |
-| Create a new user | POST | tba |
-| Log in as a user | POST | tba |
-| Return a list of all photo entries | GET | yes |
-| Add a new photo entry | POST | tba |
-| Return all photo entries by a specific user | GET | yes |
-| Fluke/unfluke (like or dislike) a specific post | POST | tba |
-| Add a new comment to an entry | POST | tba |
-| Get all comments on a specified entry | GET | tba |
+| [Create a new user](#create-new-user) | POST | tba |
+| [Log in as a user](#login-as-user) | POST | tba |
+| [Return a list of all photo entries](#get-all-entries) | GET | yes |
+| [Add a new photo entry](#add-new-entry) | POST | tba |
+| [Return all photo entries by a specific user](#get-all-entries-by-a-specific-user) | GET | yes |
+| [Fluke/unfluke (like or dislike) a specific post](#fluke/unfluke-(like/unlike)-an-entry) | POST | tba |
+| [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | tba |
+| [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | tba |
 
 ## Requests
 
@@ -117,7 +117,7 @@ The post request will compare the username to the users table for a match, and w
     }
 
 
-### Get all entries (i.e., photos)
+### Get all entries
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
