@@ -60,7 +60,7 @@ If a non-authenticated user attempts this, the result will be:
 
 ### Create new user
 
-
+[back to summary](#summary)
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
 | POST    | `/v1/users/signup` | Create a user | boolean |
