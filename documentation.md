@@ -13,14 +13,14 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | Task | Method | Requires authentication? |
 | ------ | -------- | -------- |
 | [Return a list of all users](#return-list-of-all-users) | GET | yes |
-| [Create a new user](#create-new-user) | POST | tba |
-| [Log in as a user](#login-as-user) | POST | tba |
+| [Create a new user](#create-new-user) | POST | no |
+| [Log in as a user](#login-as-user) | POST | yes |
 | [Return a list of all photo entries](#get-all-entries) | GET | yes |
-| [Add a new photo entry](#add-new-entry) | POST | tba |
+| [Add a new photo entry](#add-new-entry) | POST | yes |
 | [Return all photo entries by a specific user](#get-all-entries-by-a-specific-user) | GET | yes |
-| [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | tba |
-| [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | tba |
-| [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | tba |
+| [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | yes |
+| [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | yes |
+| [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | yes |
 
 ## Requests
 
@@ -320,3 +320,5 @@ The server will return an object structured as following
         }
       ]
     }
+
+([back to summary](#summary))  
