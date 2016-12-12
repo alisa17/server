@@ -39,13 +39,12 @@ function newFollow(following_user_id, followed_user_id) {
 }
 
 function unFollow(following_user_id, followed_user_id) {
-
   return knex('follows')
     .where('following_user_id', following_user_id)
     .andWhere('followed_user_id', followed_user_id)
     .del()
     .then((follow_id) => {
-      incrementFollowerCount(followed_user_id, -1)
+      return incrementFollowerCount(followed_user_id, -1)
     })
 }
 

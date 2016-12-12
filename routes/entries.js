@@ -114,15 +114,22 @@ router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
 })
 
 router.post('/follows/new', ensureAuthenticated, (req, res) => {
-  console.log(req.body.following_user_id);
   followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
     .then((follow_id) => {
-
+      if (follow_id.length != 0) res.send(true)
+      else res.send(false)
+    .catch((err) => res.send(err))
     })
 })
 
 router.post('/follows/delete', ensureAuthenticated, (req, res) => {
-  res.send('delete follow')
+  followsDb.unFollow(req.body.following_user_id, req.body.followed_user_id)
+    .then((response) => {
+      console.log({response});
+      // if (follow_id.length != 0) res.send(true)
+      // else res.send(false)
+    })
+    .catch((err) => res.send(err))
 })
 
 module.exports = router
