@@ -226,45 +226,6 @@ If a non-authenticated user attempts this, the result will be:
     }
 
 
-### Get all entries a of a user's followed users
-
-| Method | Endpoint | Usage | Returns |
-| ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/follows/:user_id` | Retrieve all entries a user is following | followed_entries |
-
-#### Response
-##### Status Codes:
-* On success, the HTTP status code in the response header is 200 ('OK').
-* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
-* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
-
-The get request will return an object with the key "followed_entries", containing an array of the entry objects.
-
-   {
-     "user_entries":
-       [
-         {
-           "entry_id": 1,
-           "entry_created_at": [date/time],
-           "user_id": 5,
-           "comment_count": 0,
-           "username": "kfrn"
-         },
-         {
-           "entry_id": 3,
-           "entry_created_at": [date/time],
-           "user_id": 5,
-           "comment_count": 4,
-           "username": "symeshjb"
-         }
-       ]
-   }
-
-If a non-authenticated user attempts this, the result will be:
-
-    {
-    "data": "Invalid Permissions"
-    }
 
 ### Fluke/unfluke (like/unlike) an entry
 
@@ -417,4 +378,44 @@ The server will return an object structured as following
 
     {
       !!!figure this one out mr sleepy
+    }
+
+### Get all entries a of a user's followed users
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET    | `/v1/entries/follows/:user_id` | Retrieve all entries a user is following | followed_entries |
+
+#### Response
+##### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The get request will return an object with the key "followed_entries", containing an array of the entry objects.
+
+   {
+     "user_entries":
+       [
+         {
+           "entry_id": 1,
+           "entry_created_at": [date/time],
+           "user_id": 5,
+           "comment_count": 0,
+           "username": "kfrn"
+         },
+         {
+           "entry_id": 3,
+           "entry_created_at": [date/time],
+           "user_id": 5,
+           "comment_count": 4,
+           "username": "symeshjb"
+         }
+       ]
+   }
+
+If a non-authenticated user attempts this, the result will be:
+
+    {
+    "data": "Invalid Permissions"
     }
