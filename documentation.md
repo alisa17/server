@@ -5,7 +5,7 @@
 * Harrison Symes
 * Katherine Nagels
 
-## Background
+## Summary
 
 API for use with the Flooki (formerly "One-Shot") app project. 
 
@@ -18,7 +18,7 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | [Return a list of all photo entries](#get-all-entries) | GET | yes |
 | [Add a new photo entry](#add-new-entry) | POST | tba |
 | [Return all photo entries by a specific user](#get-all-entries-by-a-specific-user) | GET | yes |
-| [Fluke/unfluke (like or dislike) a specific post](#fluke/unfluke-(like/unlike)-an-entry) | POST | tba |
+| [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | tba |
 | [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | tba |
 | [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | tba |
 
@@ -218,13 +218,13 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
-### Fluke/unfluke (like/unlike) an entry
+### Fluke or unfluke an entry
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes | object with fluke data |
+| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | object with fluke data |
 
-This post request first checks if the entry has already been fluked by the current user: if so, the image is unfluked. If not, the image is fluked.
+This post request first checks if the entry has already been fluked (liked) by the current user: if so, the image is unfluked. If not, the image is fluked (unfluked).
 The submission is an object containing the entry id & user id, e.g.:
 
     {
