@@ -58,9 +58,9 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
-### Create new user
+([back to summary](#summary))  
 
-[back to summary](#summary)  
+### Create new user
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -84,6 +84,8 @@ The post object must take the form:
 The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. The password will be hashed, and the database stores only this hashed version. If the user creation is successful, that user's ID will be returned, e.g.:
 
     { "user_id": 3 }
+
+([back to summary](#summary))  
 
 ### Login as user
 
@@ -117,6 +119,7 @@ The post request will compare the username to the users table for a match, and w
       }
     }
 
+([back to summary](#summary))  
 
 ### Get all entries
 
@@ -156,6 +159,8 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
+([back to summary](#summary))  
+
 ### Add new entry
 
 | Method | Endpoint | Usage | Returns |
@@ -180,6 +185,8 @@ The post request will return an object with the id of the entry just submitted. 
     {
       "entry_id": 12
     }
+
+([back to summary](#summary))  
 
 ### Get all entries by a specific user
 
@@ -219,6 +226,8 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
+([back to summary](#summary))  
+
 ### Fluke or unfluke an entry
 
 | Method | Endpoint | Usage | Returns |
@@ -247,6 +256,7 @@ The server will return an object structured as following
       "user_id": 3
     }
 
+([back to summary](#summary))  
 
 ### Add a new comment to an entry
 
@@ -275,6 +285,8 @@ The server will return an object structured as following
     {
       "comment_id: 4
     }
+
+([back to summary](#summary))  
 
 ### Get all comments on a specified entry
 
