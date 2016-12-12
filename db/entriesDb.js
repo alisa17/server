@@ -4,7 +4,7 @@ var knex = Knex(config)
 
 function getAllEntries() {
   return knex('entries')
-          .select('entries.entry_id', 'entries.user_id', 'entries.image_url', 'entries.flukes', 'entries.entry_created_at', 'users.id', 'users.username')
+          .select('entries.entry_id', 'entries.user_id', 'entries.image_url', 'entries.flukes', 'entries.entry_created_at', 'users.id', 'users.username', 'entries.comment_count')
           .join('users', 'entries.user_id', 'users.id')
           .orderBy('entry_created_at', 'desc')
 }
