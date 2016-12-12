@@ -5,24 +5,23 @@
 * Harrison Symes
 * Katherine Nagels
 
-## Background
+## Summary
 
-API for use with the "One-Shot" app project.
+API for use with the Flooki (formerly "One-Shot") app project. 
+
 
 ##### The API can:
 | Task | Method | Requires authentication? |
 | ------ | -------- | -------- |
 | [Return a list of all users](#return-list-of-all-users) | GET | yes |
-| Create a new user | POST | tba |
-| Log in as a user | POST | tba |
-| Return a list of all photo entries | GET | yes |
-| Add a new photo entry | POST | tba |
-| Return all photo entries by a specific user | GET | yes |
-| Fluke/unfluke (like or dislike) a specific post | POST | tba |
-| Add a new comment to an entry | POST | tba |
-| Get all comments on a specified entry | GET | tba |
-| Delete an entry - tba!!!!!!| POST | tba |
-
+| [Create a new user](#create-new-user) | POST | no |
+| [Log in as a user](#login-as-user) | POST | yes |
+| [Return a list of all photo entries](#get-all-entries) | GET | yes |
+| [Add a new photo entry](#add-new-entry) | POST | yes |
+| [Return all photo entries by a specific user](#get-all-entries-by-a-specific-user) | GET | yes |
+| [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | yes |
+| [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | yes |
+| [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | yes |
 
 ## Requests
 
@@ -60,8 +59,9 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
-### Create new user
+([back to summary](#summary))  
 
+### Create new user
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -85,6 +85,8 @@ The post object must take the form:
 The post request will add a new user row to the user table based on the form inputs. It will reject the request if the username is already taken, and return a falsey. The password will be hashed, and the database stores only this hashed version. If the user creation is successful, that user's ID will be returned, e.g.:
 
     { "user_id": 3 }
+
+([back to summary](#summary))  
 
 ### Login as user
 
@@ -118,12 +120,13 @@ The post request will compare the username to the users table for a match, and w
       }
     }
 
+([back to summary](#summary))  
 
-### Get all entries (i.e., photos)
+### Get all entries
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/:user_id` | Retrieve all One Shot entries | entries |
+| GET    | `/v1/entries/:user_id` | Retrieve all entries | entries |
 
 #### Response
 ##### Status Codes:
@@ -157,11 +160,13 @@ If a non-authenticated user attempts this, the result will be:
      "data": "Invalid Permissions"
      }
 
+([back to summary](#summary))  
+
 ### Add new entry
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST   | `/v1/entries/new` | Post new One-Shot entry | entry_id |
+| POST    | `/v1/entries/new` | Post new entry | entry_id |
 
 The submission should take the format:
 
@@ -181,6 +186,8 @@ The post request will return an object with the id of the entry just submitted. 
     {
       "entry_id": 12
     }
+
+([back to summary](#summary))  
 
 ### Get all entries by a specific user
 
@@ -227,13 +234,15 @@ If a non-authenticated user attempts this, the result will be:
 
 
 
-### Fluke/unfluke (like/unlike) an entry
+([back to summary](#summary))  
+
+### Fluke or unfluke an entry
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes | object with fluke data |
+| POST    | `/v1/entries/fluke` | Increment/decrement number of flukes (likes) | object with fluke data |
 
-This post request first checks if the entry has already been fluked by the current user: if so, the image is unfluked. If not, the image is fluked.
+This post request first checks if the entry has already been fluked (liked) by the current user: if so, the image is unfluked (unliked). If not, the image is fluked (liked).
 The submission is an object containing the entry id & user id, e.g.:
 
     {
@@ -255,6 +264,7 @@ The server will return an object structured as following
       "user_id": 3
     }
 
+([back to summary](#summary))  
 
 ### Add a new comment to an entry
 
@@ -283,6 +293,8 @@ The server will return an object structured as following
     {
       "comment_id: 4
     }
+
+([back to summary](#summary))  
 
 ### Get all comments on a specified entry
 
@@ -419,3 +431,6 @@ If a non-authenticated user attempts this, the result will be:
     {
     "data": "Invalid Permissions"
     }
+
+([back to summary](#summary))  
+
