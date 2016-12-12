@@ -78,4 +78,8 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+router.post('/comments/new', ensureAuthenticated, (req, res) => {
+  //code goes here
+})
+
 module.exports = router

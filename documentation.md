@@ -11,7 +11,7 @@ API for use with the "One-Shot" app project. Requests marked 'AU' require authen
 
 ##### The API can:
 | Task | Method |
-| ------ | -------- | 
+| ------ | -------- |
 | Return a list of all users | GET |
 | Create a new user | POST |
 | Log in as a user | POST |
@@ -19,7 +19,7 @@ API for use with the "One-Shot" app project. Requests marked 'AU' require authen
 | Add a new photo entry | POST |
 | Return all photo entries by a specific user | GET |
 | Fluke/unfluke (like or dislike) a specific post | POST |
-| Delete an entry - tba!!!!!!| POST | 
+| Delete an entry - tba!!!!!!| POST |
 
 
 ## Requests
@@ -105,7 +105,7 @@ The post object must take the form:
   * If the data passed in is incorrect, a 400 'Bad Response' HTTP status code will be returned.
   * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The post request will compare the username to the users table for a match, and will bcrypt compare the password attempt to the hashed password in the user table. Returns user information (minus password) on success. A user session is created upon success. 
+The post request will compare the username to the users table for a match, and will bcrypt compare the password attempt to the hashed password in the user table. Returns user information (minus password) on success. A user session is created upon success.
 
     {
       "user": {
@@ -153,7 +153,7 @@ If a non-authenticated user attempts this, the result will be:
      {
      "data": "Invalid Permissions"
      }
-     
+
 ### Add new entry
 
 | Method | Endpoint | Usage | Returns |
@@ -178,7 +178,7 @@ The post request will return an object with the id of the entry just submitted. 
     {
       "entry_id": 12
     }
-  
+
 ### Get all entries by a specific user (AU)
 
 | Method | Endpoint | Usage | Returns |
@@ -214,7 +214,7 @@ If a non-authenticated user attempts this, the result will be:
      {
      "data": "Invalid Permissions"
      }
-  
+
 ### Fluke/unfluke (like/unlike) an entry
 
 | Method | Endpoint | Usage | Returns |
@@ -237,11 +237,41 @@ The submission is an object containing the entry id & user id, e.g.:
 The server will return an object structured as following
 
     {
-      "action": "fluke"/"unfluke", 
+      "action": "fluke"/"unfluke",
       "entry_id": 2,
-      "success": true, 
+      "success": true,
       "user_id": 3
     }
+
+
+### Add a new comment to an entry
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| POST    | `/v1/entries/comments/new` | Add a comment to an entry| comment_id |
+
+This post creates a new comment in the comments table, associating the user who posted it to the entry it was posted on. It will also increment the commentCount column of the entries table for the given entry.
+The submission is an object containing the entry id & user id and the comment string to be posted e.g.:
+
+    {
+      entry_id: 1,
+      user_id: 1,
+      comment: "Mel-lo I am Hel"
+    }
+
+#### Response
+##### Status Codes:
+* If the comment is posted, the HTTP status code in the response header is 201 ('Created').
+* If the object provided is incorrectly formatted, the HTTP status code in the response header is 400 ('Bad Request').
+* If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The server will return an object structured as following
+
+    {
+      "comment_id: 4
+    }
+
 
 ### Edit entry
 
