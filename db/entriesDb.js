@@ -67,6 +67,17 @@ function myFlukes(user_id) {
           .where('user_id', user_id)
 }
 
+function incrementCommentCount(entry_id) {
+  return knex('entries')
+          .where('entry_id', entry_id)
+          .then( (entry) => {
+            var count = entry[0].commentCount
+            return knex('entries')
+                    .where('entry_id', entry_id)
+                    .update('commentCount', count + 1)
+          })
+}
+
 module.exports = {
   getAllEntries,
   getEntriesByUser,

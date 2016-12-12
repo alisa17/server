@@ -78,4 +78,12 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
     .catch( (err) => res.send(err) )
 })
 
+router.post('/comments/new', ensureAuthenticated, (req, res) => {
+  //code goes here
+    //recieve req object
+    //knex add the comment to the comments table
+      //on success, then increment the entry by 1
+        //res.json the comment id
+})
+
 module.exports = router
