@@ -106,12 +106,19 @@ router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
-  followsDb.getFollowingEntries(req.params.user_id)
-    .then((followed_entries) => {
-      console.log(followed_entries);
-    })
+  res.send("get follows of " + req.params.user_id)
+  // followsDb.getFollowingEntries(req.params.user_id)
+  //   .then((followed_entries) => {
+  //     console.log(followed_entries);
+  //   })
 })
 
+router.post('/follows/new', ensureAuthenticated, (req, res) => {
+  res.send("new follow")
+})
 
+router.post('/follows/delete', ensureAuthenticated, (req, res) => {
+  res.send('delete follow')
+})
 
 module.exports = router
