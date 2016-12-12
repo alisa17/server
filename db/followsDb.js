@@ -30,10 +30,11 @@ function getFollowingEntries(user_id) {
 }
 
 function newFollow(following_user_id, followed_user_id) {
+  console.log({followed_user_id});
   return knex('follows')
     .insert({following_user_id, followed_user_id})
     .then((follow_id) => {
-      incrementFollowerCount(following_user_id, 1)
+      return incrementFollowerCount(followed_user_id, 1)
     })
 }
 
@@ -43,16 +44,17 @@ function unFollow(following_user_id, followed_user_id) {
     .andWhere('followed_user_id', followed_user_id)
     .del()
     .then((follow_id) => {
-      incrementFollowerCount(following_user_id, -1)
+      return incrementFollowerCount(followed_user_id, -1)
     })
 }
 
 function incrementFollowerCount(user_id, increment) {
-  return knex('users')
-    .where('id',user_id)
+  console.log("increment", user_id);
+  return knex('users').where('users.id', user_id)
     .then((user) => {
+      console.log(user[0]);
       return knex('users')
-        .update('follower_count', user.follower_count + increment)
+        .update('follower_count', (user[0].follower_count || 0 )+ increment)
         .where('id', user_id)
     })
 }
