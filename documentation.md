@@ -7,7 +7,7 @@
 
 ## Summary
 
-API for use with the Flooki (formerly "One-Shot") app project. 
+API for use with the Flooki (formerly "One-Shot") app project.
 
 
 ##### The API can:
@@ -404,14 +404,15 @@ The server will return an object structured as following
 * If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The get request will return an object with the key "followed_entries", containing an array of the entry objects.
+The get request will return an object with the key "followed_entries", containing an array of the entry objects with the key "followed_entries" and an array of the user_ids of the users being followed, with the key "following_list".
 
    {
-     "user_entries":
+     "followed_entries":
        [
          {
            "entry_id": 1,
            "entry_created_at": [date/time],
+           "image_url": "memes.com/pepe"
            "user_id": 5,
            "comment_count": 0,
            "username": "kfrn"
@@ -419,11 +420,13 @@ The get request will return an object with the key "followed_entries", containin
          {
            "entry_id": 3,
            "entry_created_at": [date/time],
+           "image_url": "memes.com/doge"
            "user_id": 5,
            "comment_count": 4,
            "username": "symeshjb"
          }
-       ]
+       ],
+    "following_list": [1, 4, 7]
    }
 
 If a non-authenticated user attempts this, the result will be:
@@ -433,4 +436,3 @@ If a non-authenticated user attempts this, the result will be:
     }
 
 ([back to summary](#summary))  
-
