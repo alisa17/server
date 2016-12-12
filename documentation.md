@@ -7,7 +7,7 @@
 
 ## Background
 
-API for use with the "One-Shot" app project. 
+API for use with the Flooki (formerly "One-Shot") app project. 
 
 ##### The API can:
 | Task | Method | Requires authentication? |
@@ -21,8 +21,6 @@ API for use with the "One-Shot" app project.
 | Fluke/unfluke (like or dislike) a specific post | POST | tba |
 | Add a new comment to an entry | POST | tba |
 | Get all comments on a specified entry | GET | tba |
-| Delete an entry - tba!!!!!!| POST | tba |
-
 
 ## Requests
 
@@ -123,7 +121,7 @@ The post request will compare the username to the users table for a match, and w
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/:user_id` | Retrieve all One Shot entries | entries |
+| GET    | `/v1/entries/:user_id` | Retrieve all entries | entries |
 
 #### Response
 ##### Status Codes:
@@ -161,7 +159,7 @@ If a non-authenticated user attempts this, the result will be:
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST    | `/v1/entries/new` | Post new One-Shot entry | entry_id |
+| POST    | `/v1/entries/new` | Post new entry | entry_id |
 
 The submission should take the format:
 
