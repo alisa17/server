@@ -6,7 +6,6 @@ var userDb = require('../db/userDb')
 var followsDb = require('../db/followsDb')
 
 ensureAuthenticated = (req, res, next) => {
-  return next()
   if (req.user) {
     return next()
   } else {
