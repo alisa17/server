@@ -4,9 +4,10 @@ var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 var followsDb = require('../db/followsDb')
+var convertTimeZone = require('./convertTimeZone')
 
 ensureAuthenticated = (req, res, next) => {
-  return next()
+  return next() // App breaks if this is removed
   if (req.user) {
     return next()
   } else {
@@ -24,6 +25,9 @@ ensureAuthenticated = (req, res, next) => {
 router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
+      console.log("entries timestamps", entries.map( elem => elem.entry_created_at )) // DB timestamps (UTC)
+      console.log("entries timestamps localtime", entries.map( elem => elem.entry_created_at = convertTimeZone(elem.entry_created_at) )) // DB timestamps (NZT)
+      // call timezone FN here to reassign timestamps
       entriesDb.myFlukes(req.params.user_id)
         .then( (flukes) => {
           var myFlukes = flukes.map((fluke) => fluke.fluked_entry_id)
