@@ -22,6 +22,10 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | yes |
 | [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | yes |
 | [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | yes |
+| [User A starts following User B](#user-a-starts-following-user-b) | POST | tba |
+| [User A stops following User B](#user-a-stops-following-user-b) | POST | tba |
+| [Get users a user is following](#get-users-a-user-is-following) | GET | tba |
+| [Get all entries of a user's followed users](#get-all-entries-of-a-users-followed-users) | GET | tba |
 
 If a non-authenticated user attempts any auth requiring requests, the result will be an object structured as follows:
 
@@ -319,6 +323,8 @@ The server will return an object structured as following
       ]
     }
 
+([back to summary](#summary))
+
 ### User A starts following user B
 
 | Method | Endpoint | Usage | Returns |
@@ -334,7 +340,6 @@ The posted object should take the form:
       followed_user_id: 2 /*(user B)*/
     }
 
-
 #### Response
 ##### Status Codes:
 * If the follow event is created, the HTTP status code is 200 ('Created').
@@ -347,6 +352,8 @@ The server will return an object structured as following
     The server will return a "true" on success, or a "false" on failure
 
         res.body = "false" / "true"
+
+([back to summary](#summary))
 
 ### User A stops following user B
 
@@ -380,6 +387,8 @@ The server will return a "true" on success, or a "false" on failure
 
     res.body = "false" / "true"
 
+([back to summary](#summary))
+
 ### Get users a user is following
 
 | Method | Endpoint | Usage | Returns |
@@ -394,11 +403,13 @@ The server will return a "true" on success, or a "false" on failure
 
 The get request will return an array of the user_ids of the users being followed by the specified user, with the key "following_list".
 
-   {
-    "following_list": [1, 4, 7]
-   }
+     {
+      "following_list": [1, 4, 7]
+     }
 
-### Get all entries a of a user's followed users
+([back to summary](#summary))
+
+### Get all entries of a user's followed users
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
@@ -412,27 +423,27 @@ The get request will return an array of the user_ids of the users being followed
 
 The get request will return an object with the key "followed_entries", containing an array of the entry objects with the key "followed_entries" and an array of the user_ids of the users being followed, with the key "following_list".
 
-   {
-     "followed_entries":
-       [
-         {
-           "entry_id": 1,
-           "entry_created_at": [date/time],
-           "image_url": "memes.com/pepe"
-           "user_id": 5,
-           "comment_count": 0,
-           "username": "kfrn"
-         },
-         {
-           "entry_id": 3,
-           "entry_created_at": [date/time],
-           "image_url": "memes.com/doge"
-           "user_id": 5,
-           "comment_count": 4,
-           "username": "symeshjb"
-         }
-       ],
-    "following_list": [1, 4, 7]
-   }
+     {
+       "followed_entries":
+         [
+           {
+             "entry_id": 1,
+             "entry_created_at": [date/time],
+             "image_url": "memes.com/pepe"
+             "user_id": 5,
+             "comment_count": 0,
+             "username": "kfrn"
+           },
+           {
+             "entry_id": 3,
+             "entry_created_at": [date/time],
+             "image_url": "memes.com/doge"
+             "user_id": 5,
+             "comment_count": 4,
+             "username": "symeshjb"
+           }
+         ],
+      "following_list": [1, 4, 7]
+     }
 
 ([back to summary](#summary))  
