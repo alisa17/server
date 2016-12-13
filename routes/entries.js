@@ -117,7 +117,7 @@ router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
             {entry_id, user_id, entry_created_at, username, comment_count, image_url }) => {
             return {entry_id, user_id, entry_created_at, username, comment_count, image_url }
           })
-          res.send({followed_entries, followingList})
+          res.send({followed_entries, following_list})
         })
     })
 })
