@@ -106,11 +106,30 @@ router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
-  res.send("get follows of " + req.params.user_id)
-  // followsDb.getFollowingEntries(req.params.user_id)
-  //   .then((followed_entries) => {
-  //     console.log(followed_entries);
-  //   })
+  followsDb.followingUsers(req.params.user_id)
+    .then((following) => {
+      var following_list = following.map((follow) => {
+        return follow.followed_user_id
+      })
+      followsDb.getFollowingEntries(following_list)
+        .then((entries) => {
+          var followed_entries = entries.map((
+            {entry_id, user_id, entry_created_at, username, comment_count, image_url }) => {
+            return {entry_id, user_id, entry_created_at, username, comment_count, image_url }
+          })
+          res.send({followed_entries, followingList})
+        })
+    })
+})
+
+router.get('/follows/users/:user_id', ensureAuthenticated, (req, res) => {
+  followsDb.followingUsers(req.params.user_id)
+    .then((following) => {
+      var following_list = following.map((follow) => {
+        return follow.followed_user_id
+      })
+      res.send({following_list})
+    })
 })
 
 router.post('/follows/new', ensureAuthenticated, (req, res) => {
@@ -125,9 +144,8 @@ router.post('/follows/new', ensureAuthenticated, (req, res) => {
 router.post('/follows/delete', ensureAuthenticated, (req, res) => {
   followsDb.unFollow(req.body.following_user_id, req.body.followed_user_id)
     .then((response) => {
-      console.log({response});
-      // if (follow_id.length != 0) res.send(true)
-      // else res.send(false)
+      if (res[0]) res.send(true)
+      else res.send(false)
     })
     .catch((err) => res.send(err))
 })
