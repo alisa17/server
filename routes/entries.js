@@ -122,6 +122,16 @@ router.get('/follows/:user_id', ensureAuthenticated, (req,res) => {
     })
 })
 
+router.get('/follows/users/:user_id', ensureAuthenticated, (req, res) => {
+  followsDb.followingUsers(req.params.user_id)
+    .then((following) => {
+      var following_list = following.map((follow) => {
+        return follow.followed_user_id
+      })
+      res.send({following_list})
+    })
+})
+
 router.post('/follows/new', ensureAuthenticated, (req, res) => {
   followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
     .then((follow_id) => {

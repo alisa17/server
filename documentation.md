@@ -23,6 +23,17 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | yes |
 | [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | yes |
 
+If a non-authenticated user attempts any auth requiring requests, the result will be an object structured as follows:
+
+    {
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    }
+
 ## Requests
 
 ### Return list of all users
@@ -52,12 +63,6 @@ The get request will return an object with the key "users", containing an array 
           }
         ]
     }
-
-If a non-authenticated user attempts this, the result will be:
-
-     {
-     "data": "Invalid Permissions"
-     }
 
 ([back to summary](#summary))  
 
@@ -154,12 +159,6 @@ The get request will return an object with the key "entries" containing an array
        "myFlukes": [1, 5, 9, 12]
     }
 
-If a non-authenticated user attempts this, the result will be:
-
-     {
-     "data": "Invalid Permissions"
-     }
-
 ([back to summary](#summary))  
 
 ### Add new entry
@@ -221,16 +220,7 @@ The get request will return an object with the key "user_entries", containing an
         ]
     }
 
-If a non-authenticated user attempts this, the result will be:
 
-    {
-      "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-    }
 
 
 
@@ -354,9 +344,9 @@ The posted object should take the form:
 
 The server will return an object structured as following
 
-    {
-      !!!figure this one out mr sleepy
-    }
+    The server will return a "true" on success, or a "false" on failure
+
+        res.body = "false" / "true"
 
 ### User A stops following user B
 
@@ -386,11 +376,27 @@ The posted object should take the form:
 * If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The server will return an object structured as following
+The server will return a "true" on success, or a "false" on failure
 
-    {
-      !!!figure this one out mr sleepy
-    }
+    res.body = "false" / "true"
+
+### Get users a user is following
+
+| Method | Endpoint | Usage | Returns |
+| ------ | -------- | ----- | ------- |
+| GET    | `/v1/entries/follows/users/:user_id` | Retrieve all users a user is following | following_list |
+
+#### Response
+##### Status Codes:
+* On success, the HTTP status code in the response header is 200 ('OK').
+* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
+* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
+
+The get request will return an array of the user_ids of the users being followed by the specified user, with the key "following_list".
+
+   {
+    "following_list": [1, 4, 7]
+   }
 
 ### Get all entries a of a user's followed users
 
@@ -428,11 +434,5 @@ The get request will return an object with the key "followed_entries", containin
        ],
     "following_list": [1, 4, 7]
    }
-
-If a non-authenticated user attempts this, the result will be:
-
-    {
-    "data": "Invalid Permissions"
-    }
 
 ([back to summary](#summary))  
