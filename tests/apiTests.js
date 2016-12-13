@@ -3,6 +3,11 @@ const request = require('supertest')
 const agent = require('superagent')
 const app = require('../app')
 
+// May be able to use this to pass tests with auth
+const cookie = { path: '/',
+  _expires: null,
+  originalMaxAge: null,
+  httpOnly: true }
 
 
 test('Can get users from /api/v1/users', t => {
@@ -76,9 +81,12 @@ test('Can login as valid user', t => {
 test('Can get all entries from DB', t => {
   request(app)
     .get('/api/v1/entries')
+    .expect(200)
     .end( (err, res) => {
       t.false(err, 'There is no error')
       t.true(typeof res.body == 'object', 'Returns an object')
+      t.true(res.body.entries.length > 2, 'More than two entries in DB')
+      t.true(res.body.entries[0].hasOwnProperty('entry_id'), 'Response has the key entry_id')
       t.end()
     })
 
@@ -89,6 +97,8 @@ test('Can get all entries by user', t => {
     .end( (err, res) => {
         t.false(err, 'There is no error')
         t.true(typeof res.body == 'object', 'Returns an object')
+        t.true(res.body.user_entries.length >= 2, '(At least) two entries in DB from user_id of 2')
+        t.true(res.body.user_entries[0].user_id === 2, 'The entries are from the correct user')
         t.end()
     })
 })
@@ -104,6 +114,8 @@ test('Can add new entry', t => {
     .end( (err, res) => {
         t.false(err, 'There is no error')
         t.true(typeof res.body == 'object', 'Returns an object')
+        t.true(res.body.entry_id >= 4, 'Entry ID is > 4 (not one of our seeds)')
+        t.true(typeof res.body.entry_id, 'Entry ID is a number')
         t.end()
       })
   })
