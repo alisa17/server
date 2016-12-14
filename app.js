@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var schedule = require('node-schedule')
 var cors = require('cors')
 var corsOptions = {
   origin: true,
@@ -11,6 +12,7 @@ var corsOptions = {
   credentials: true
 }
 var passport = require('./passport')
+var userDb = require('./db/userDb')
 
 var users = require('./routes/users')
 var entries = require('./routes/entries')
@@ -28,5 +30,17 @@ app.use(passport.session())
 
 app.use('/api/v1/users', users)
 app.use('/api/v1/entries', entries)
+
+var rule = new schedule.RecurrenceRule()
+rule.hour = 0
+
+schedule.scheduleJob(rule, () => {
+  console.log("inside sched job FN")
+  resetShots()
+  .then( () => {
+    console.log("Shots reset!")
+  })
+  .catch( (err) => res.send(err) )
+})
 
 module.exports = app;

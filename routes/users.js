@@ -1,13 +1,12 @@
 var express = require('express')
 var router = express.Router()
 var bcrypt = require('bcrypt')
-var passport = require('../passport')
 var Passport = require('passport')
+var passport = require('../passport')
 var userDb = require('../db/userDb')
 
-
 /* GET users listing. */
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/', ensureAuthenticated, (req, res, next) => {
   userDb.getUsers()
     .then((users) => {
       var obj = { "users": []}
@@ -45,7 +44,6 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log({res});
   res.json({"user": req.user})
 })
 
