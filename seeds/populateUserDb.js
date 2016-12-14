@@ -12,6 +12,15 @@ exports.seed = function(knex, Promise) {
           "password": "$2a$10$lFKCidwWcWJhsQdQVjlob.4hIVw/dBXm.pqCwfeXoq//gZWoI5L/a",
           "email": "symeshjb@gmail.com"
         }),
+        knex('users').insert({ "username": "mel",
+          "password": "$2a$10$hCfQbc9zYq6iP0ZWnLtF9O96.ti9NUZwanOZ9n84e4wUqs82n6jLO",
+          "email": "mel@mel.com"
+        }),
+        knex('users').insert({ "username": "ursula",
+          "password": "$2a$10$hCfQbc9zYq6iP0ZWnLtF9O96.ti9NUZwanOZ9n84e4wUqs82n6jLO",
+          "email": "ursula@gmail.com"
+        }),
+
       ]);
     });
 };
