@@ -5,21 +5,7 @@ var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 var followsDb = require('../db/followsDb')
 
-ensureAuthenticated = (req, res, next) => {
-  return next()
-  if (req.user) {
-    return next()
-  } else {
-    res.json({
-      "error":
-      {
-        "type": "auth",
-        "code": 401,
-        "message": "authentication failed"
-      }
-    })
-  }
-}
+
 
 router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
@@ -165,5 +151,20 @@ router.post('/follows/delete', ensureAuthenticated, (req, res) => {
     })
     .catch((err) => res.send(err))
 })
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  } else {
+    res.json({
+      "error":
+      {
+        "type": "auth",
+        "code": 401,
+        "message": "authentication failed"
+      }
+    })
+  }
+}
 
 module.exports = router

@@ -40,6 +40,10 @@ decrement = (user_id) => {
           })
 }
 
+resetShots = () => {
+  return knex('users')
+    .update("shotsRemaining", 4)
+}
 
 
 module.exports = {
@@ -48,5 +52,6 @@ module.exports = {
   getUserByUsernameCb,
   createUser,
   getUserById,
-  decrement
+  decrement,
+  resetShots
 }
