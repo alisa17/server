@@ -24,6 +24,12 @@ function getFollowingEntries(list) {
 
 }
 
+function getFollow(following_user_id, followed_user_id) {
+  return knex('follows')
+    .where('following_user_id', following_user_id)
+    .andWhere('followed_user_id', followed_user_id)
+}
+
 function newFollow(following_user_id, followed_user_id) {
   return knex('follows')
     .insert({following_user_id, followed_user_id})
@@ -56,5 +62,6 @@ module.exports = {
   getFollowingEntries,
   newFollow,
   unFollow,
-  followingUsers
+  followingUsers,
+  getFollow
 }

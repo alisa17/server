@@ -59,6 +59,7 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log({res});
   res.json({"user": req.user})
 })
 

@@ -133,19 +133,35 @@ router.get('/follows/users/:user_id', ensureAuthenticated, (req, res) => {
 })
 
 router.post('/follows/new', ensureAuthenticated, (req, res) => {
-  followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
-    .then((follow_id) => {
-      if (follow_id.length != 0) res.send(true)
-      else res.send(false)
-    .catch((err) => res.send(err))
+  followsDb.getFollow(req.body.following_user_id, req.body.followed_user_id)
+    .then((follow) => {
+      console.log({follow});
+      if (follow.length === 0) {
+        followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
+          .then(res.send("success"))
+      } else if (follow.length === 1) {
+        followsDb.unFollow(req.body.following_user_id, req.body.followed_user_id)
+          .then(res.send("success"))
+      }
     })
+
 })
+
+// router.post('/follows/new', ensureAuthenticated, (req, res) => {
+//   followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
+//     .then((follow_id) => {
+//       if (follow_id.length != 0) res.send("success")
+//       else res.send(false)
+//     .catch((err) => res.send(err))
+//     })
+// })
+
+
 
 router.post('/follows/delete', ensureAuthenticated, (req, res) => {
   followsDb.unFollow(req.body.following_user_id, req.body.followed_user_id)
     .then((response) => {
-      if (res[0]) res.send(true)
-      else res.send(false)
+      res.send("success")
     })
     .catch((err) => res.send(err))
 })
