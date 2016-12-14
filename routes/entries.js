@@ -4,7 +4,6 @@ var passport = require('../passport')
 var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 var followsDb = require('../db/followsDb')
-var convertTimeZone = require('./convertTimeZone')
 
 ensureAuthenticated = (req, res, next) => {
   return next() // App breaks if this is removed
