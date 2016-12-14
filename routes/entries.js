@@ -63,9 +63,6 @@ router.post('/fluke', ensureAuthenticated, (req, res, next) => {
 })
 
 router.post('/comments/new', ensureAuthenticated, (req, res) => {
-  //code goes here
-    //recieve req object
-    //knex add the comment to the comments table
     entriesDb.newComment(req.body)
       .then((comment_id) => {
         if (comment_id[0]) {
@@ -75,8 +72,6 @@ router.post('/comments/new', ensureAuthenticated, (req, res) => {
             })
         }
       })
-      //on success, then increment the entry by 1
-        //res.json the comment id
 })
 
 router.get('/comments/:entry_id', ensureAuthenticated, (req, res) => {
@@ -130,26 +125,6 @@ router.post('/follows/new', ensureAuthenticated, (req, res) => {
     })
 
 })
-
-// router.post('/follows/new', ensureAuthenticated, (req, res) => {
-//   followsDb.newFollow(req.body.following_user_id, req.body.followed_user_id)
-//     .then((follow_id) => {
-//       if (follow_id.length != 0) res.send("success")
-//       else res.send(false)
-//     .catch((err) => res.send(err))
-//     })
-// })
-
-
-
-router.post('/follows/delete', ensureAuthenticated, (req, res) => {
-  followsDb.unFollow(req.body.following_user_id, req.body.followed_user_id)
-    .then((response) => {
-      res.send("success")
-    })
-    .catch((err) => res.send(err))
-})
-
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
