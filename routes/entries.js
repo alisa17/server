@@ -25,11 +25,6 @@ ensureAuthenticated = (req, res, next) => {
 router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
-      // console.log("entries timestamps", entries.map( elem => elem.entry_created_at )) // DB timestamps (UTC)
-      // console.log("entries timestamps localtime", entries.map( elem => elem.entry_created_at = convertTimeZone(elem.entry_created_at) )) // DB timestamps (NZT)
-      // // entries.map( elem => elem.entry_created_at = null )
-      // entries.map( elem => elem.entry_created_at = convertTimeZone(elem.entry_created_at) )
-      // call timezone FN here to reassign timestamps
       entriesDb.myFlukes(req.params.user_id)
         .then( (flukes) => {
           var myFlukes = flukes.map((fluke) => fluke.fluked_entry_id)
