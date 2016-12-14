@@ -92,9 +92,6 @@ function newComment({entry_id, user_id, comment}) {
     .insert({entry_id, user_id, comment})
 }
 
-//get list of users a user is following
-
-
 module.exports = {
   getAllEntries,
   getEntriesByUser,

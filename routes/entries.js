@@ -150,6 +150,7 @@ router.post('/follows/delete', ensureAuthenticated, (req, res) => {
     .catch((err) => res.send(err))
 })
 
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next()

@@ -1,13 +1,13 @@
 var express = require('express')
 var router = express.Router()
 var bcrypt = require('bcrypt')
-var passport = require('../passport')
 var Passport = require('passport')
+var passport = require('../passport')
 var userDb = require('../db/userDb')
-
+var schedule = require('node-schedule')
 
 /* GET users listing. */
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/', ensureAuthenticated, (req, res, next) => {
   userDb.getUsers()
     .then((users) => {
       var obj = { "users": []}
@@ -45,8 +45,30 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log({res});
   res.json({"user": req.user})
+})
+
+// Testing schedule
+// const secondCount = schedule.scheduleJob({second: null}, () => {
+//   console.log(new Date(), 'job1')
+// })
+// var rule = new schedule.RecurrenceRule()
+// rule.minute = 49
+// schedule.scheduleJob(rule, () => console.log("it's 18.49"))
+
+var rule = new schedule.RecurrenceRule()
+// rule.hour = 0
+rule.minute = 50
+
+schedule.scheduleJob(rule, () => {
+  console.log("schedule running")
+  router.post('/reset', (req, res, next) => {
+    resetShots()
+    .then( () => {
+      console.log("Shots reset!");
+    })
+    .catch( (err) => res.send(err) )
+  })
 })
 
 function ensureAuthenticated(req, res, next) {
