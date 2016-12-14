@@ -4,6 +4,8 @@
 
 * Harrison Symes
 * Katherine Nagels
+* Mel Booth
+* Ursula Frickey
 
 ## Summary
 
@@ -22,10 +24,9 @@ API for use with the Flooki (formerly "One-Shot") app project.
 | [Fluke/unfluke (like or dislike) a specific post](#fluke-or-unfluke-an-entry) | POST | yes |
 | [Add a new comment to an entry](#add-a-new-comment-to-an-entry) | POST | yes |
 | [Get all comments on a specified entry](#get-all-comments-on-a-specified-entry) | GET | yes |
-| [User A starts following User B](#user-a-starts-following-user-b) | POST | tba |
-| [User A stops following User B](#user-a-stops-following-user-b) | POST | tba |
-| [Get users a user is following](#get-users-a-user-is-following) | GET | tba |
-| [Get all entries of a user's followed users](#get-all-entries-of-a-users-followed-users) | GET | tba |
+| [User A follows/unfollows User B](#User-A-follows-or-unfollows-user-B) | POST | yes |
+| [Get users a user is following](#get-users-a-user-is-following) | GET | yes |
+| [Get all entries of a user's followed users](#get-all-entries-of-a-users-followed-users) | GET | yes |
 
 If a non-authenticated user attempts any auth requiring requests, the result will be an object structured as follows:
 
@@ -325,14 +326,16 @@ The server will return an object structured as following
 
 ([back to summary](#summary))
 
-### User A starts following user B
+### User A follows or unfollows user B
 
 | Method | Endpoint | Usage | Returns |
 | ------ | -------- | ----- | ------- |
-| POST   | `/v1/entries/follows/new` | flags user A as following user B | follow_id |
+| POST   | `/v1/entries/follows/new` | toggles user A following user B | "success" |
 
-This get will create a new row in the follows table associating the user who clicked "follow" to the user they followed. After following a user, they will see that user's entries displayed in the "following" tab of the app.
-The followed user's "follow_count" column of the users table will be incremented by 1
+If there is an existing follow relationship between user A and user B (A following B), the row in the follows table describing this relationship will be deleted and a "success" string will be returned.
+If there is not an existing relationship from user A to B, a row in the follows table will be created to describe this follow relationship and a "success" string will be returned.
+
+The followed user's "follow_count" column of the users table will be incremented by 1 if a follow row is created, or decremented by 1 if the row is deleted.
 The posted object should take the form:
 
     {
@@ -340,74 +343,20 @@ The posted object should take the form:
       followed_user_id: 2 /*(user B)*/
     }
 
+
 #### Response
 ##### Status Codes:
-* If the follow event is created, the HTTP status code is 200 ('Created').
+* If the follow event is created/deleted, the HTTP status code is 201 ('Created').
 * If the users given do not both match users in the database, or if the information posted has the wrong format, the HTTP status code in the response header is 400 ('Bad Request').
 * If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
 * In case of server error, the header status code is a 5xx error code and the response body contains an error object.
 
-The server will return an object structured as following
+The server will return a text string as following
 
-    The server will return a "true" on success, or a "false" on failure
-
-        res.body = "false" / "true"
+        res.body = "success"
 
 ([back to summary](#summary))
 
-### User A stops following user B
-
-| Method | Endpoint | Usage | Returns |
-| ------ | -------- | ----- | ------- |
-| POST   | `/v1/entries/follows/delete` | reverts following state from user A to user B | follow_id |
-
-This get will delete the row in the follows table associating the user who clicked "unfollow" to the user they were following.
-The unfollowed user's "follow_count" column of the users table will be decremented by 1
-The posted object should take the form:
-
-    {
-      following_user_id: 4, /*(user A)*/
-      followed_user_id: 2 /*(user B)*/
-    }
-
-
-#### Response
-##### Status Codes:
-* If the follow event is deleted, the HTTP status code is 200 ('Created').
-* If either:
-  * the users given do not both match users in the database
-  * the information posted has the wrong format
-  * there is no existing follow event from user A to user B
-
-  the HTTP status code in the response header is 400 ('Bad Request').
-* If the user is not authenticated (requires login), the HTTP status code in the response header is 401 ("Unauthorized")
-* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
-
-The server will return a "true" on success, or a "false" on failure
-
-    res.body = "false" / "true"
-
-([back to summary](#summary))
-
-### Get users a user is following
-
-| Method | Endpoint | Usage | Returns |
-| ------ | -------- | ----- | ------- |
-| GET    | `/v1/entries/follows/users/:user_id` | Retrieve all users a user is following | following_list |
-
-#### Response
-##### Status Codes:
-* On success, the HTTP status code in the response header is 200 ('OK').
-* If a non-valid user ID is given, an HTTP status code of 400 ('Bad Request') will be returned.
-* In case of server error, the header status code is a 5xx error code and the response body contains an error object.
-
-The get request will return an array of the user_ids of the users being followed by the specified user, with the key "following_list".
-
-     {
-      "following_list": [1, 4, 7]
-     }
-
-([back to summary](#summary))
 
 ### Get all entries of a user's followed users
 
