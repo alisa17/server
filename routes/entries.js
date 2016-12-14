@@ -5,8 +5,6 @@ var entriesDb = require('../db/entriesDb')
 var userDb = require('../db/userDb')
 var followsDb = require('../db/followsDb')
 
-
-
 router.get('/:user_id', ensureAuthenticated, (req, res, next) => {
   entriesDb.getAllEntries()
     .then( (entries) => {
