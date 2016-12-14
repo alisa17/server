@@ -1,5 +1,5 @@
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('entries').del()
     .then(function () {
@@ -16,8 +16,8 @@ exports.seed = function(knex, Promise) {
         knex('entries').insert({user_id: 4, image_url: 'https://bleepbloopblipblog.files.wordpress.com/2015/04/maxresdefault.jpg?w=1280'}),
         knex('entries').insert({user_id: 3, image_url: 'https://ksr-ugc.imgix.net/assets/005/732/412/91c1e1b9ff2da9ac48091d719024f602_original.jpg?w=680&fit=max&v=1460821145&auto=format&q=92&s=dcd65d0b7a039acf07a87043a7695507'}),
         knex('entries').insert({user_id: 3, image_url: 'http://www.magritte.be/dpics/oeuvres/2015-08-20-05-48-39_MagritteLatrahisondeimage.jpg'}),
-        knex('entries').insert({user_id: 3, image_url: 'http://cdn1.matadornetwork.com/blogs/1/2015/04/pobre-venadito-600x445.jpg'}),
+        knex('entries').insert({user_id: 3, image_url: 'http://cdn1.matadornetwork.com/blogs/1/2015/04/pobre-venadito-600x445.jpg'})
 
-      ]);
-    });
-};
+      ])
+    })
+}

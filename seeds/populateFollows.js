@@ -1,5 +1,5 @@
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('follows').del()
     .then(function () {
@@ -15,6 +15,6 @@ exports.seed = function(knex, Promise) {
         knex('follows').insert({followed_user_id: 3, following_user_id: 2}),
         knex('follows').insert({followed_user_id: 3, following_user_id: 4}),
         knex('follows').insert({followed_user_id: 4, following_user_id: 1})
-      ]);
-    });
-};
+      ])
+    })
+}

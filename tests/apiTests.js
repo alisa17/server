@@ -3,7 +3,7 @@ const request = require('supertest')
 const agent = require('superagent')
 const app = require('../app')
 
-//tests do not pass due to auth testing issues
+// tests do not pass due to auth testing issues
 
 // // May be able to use this to pass tests with auth
 // const cookie = { path: '/',

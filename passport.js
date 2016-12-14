@@ -1,21 +1,20 @@
-var passport = require('passport')
-var Strategy = require('passport-local').Strategy
-var bcrypt = require('bcrypt')
+const passport = require('passport')
+const Strategy = require('passport-local').Strategy
+const bcrypt = require('bcrypt')
+const db = require('./db/userDb')
 
-var db = require('./db/userDb')
-
-refactorUser = (user) => {
+var refactorUser = (user) => {
   return {
-    "username": user.username,
-    "user_id": user.id,
-    "shotsRemaining": user.shotsRemaining
+    'username': user.username,
+    'user_id': user.id,
+    'shotsRemaining': user.shotsRemaining
   }
 }
 
 passport.use(new Strategy((username, password, done) => {
   db.getUserByUsername(username)
     .then((user) => {
-      if(user.length === 0) done(null, false)
+      if (user.length === 0) done(null, false)
       else {
         bcrypt.compare(password, user[0].password, (err, valid) => {
           if (err) done(err)
@@ -35,7 +34,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   db.getUserById(id)
-    .then((user)=> {
+    .then((user) => {
       done(null, refactorUser(user[0]))
     })
     .catch((err) => {
