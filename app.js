@@ -12,7 +12,7 @@ const corsOptions = {
 const passport = require('./passport')
 const users = require('./routes/users')
 const entries = require('./routes/entries')
-const resetShots = require('./userDb').resetShots
+const resetShots = require('./db/userDb').resetShots
 
 const app = express()
 
